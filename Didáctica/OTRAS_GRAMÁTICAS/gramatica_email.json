@@ -1,0 +1,180 @@
+[
+    {
+        "lastMod": "2020-10-23 13:09:09.340506",
+        "projectName": "gramatica_email",
+        "status": "syntactic"
+    },
+    {
+        "module": "lexicon",
+        "subsets": [
+            {
+                "description": "Cualquier car\u00e1cter alfab\u00e9tico entre a y z",
+                "expression": "[a-z]",
+                "identifier": "l"
+            },
+            {
+                "description": "Cualquier car\u00e1cter alfab\u00e9tico entre A y Z",
+                "expression": "[A-Z]",
+                "identifier": "L"
+            },
+            {
+                "description": "Cualquier d\u00edgito entre 0 y 9",
+                "expression": "[0-9]",
+                "identifier": "d"
+            },
+            {
+                "description": "Cualquier car\u00e1cter (Excepto, nueva l\u00ednea)",
+                "expression": ".",
+                "identifier": "."
+            },
+            {
+                "description": "Permite reconocer cero o m\u00e1s ocurrencias del caracter antes de este",
+                "expression": "*",
+                "identifier": "*"
+            },
+            {
+                "description": "Permite reconocer uno o m\u00e1s ocurrencias del caracter antes de este",
+                "expression": "+",
+                "identifier": "+"
+            }
+        ],
+        "tokens": [
+            {
+                "name": "let",
+                "regularExp": "(l|L)+",
+                "setExp": null,
+                "typeExp": 0
+            },
+            {
+                "name": "num",
+                "regularExp": "d+",
+                "setExp": null,
+                "typeExp": 0
+            },
+            {
+                "name": "sim",
+                "regularExp": "(_|\\-|\\.)",
+                "setExp": [
+                    "_",
+                    "-",
+                    "."
+                ],
+                "typeExp": 1
+            },
+            {
+                "name": "ar",
+                "regularExp": "(@)",
+                "setExp": [
+                    "@"
+                ],
+                "typeExp": 1
+            }
+        ]
+    },
+    {
+        "errorsDictionary": [
+            {
+                "charSymbols": [],
+                "stackSymbol": "<email>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<identificador>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<dominio>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<let_num>"
+            }
+        ],
+        "module": "syntactic",
+        "ntSymbols": [
+            {
+                "tag": "<email>"
+            },
+            {
+                "tag": "<identificador>"
+            },
+            {
+                "tag": "<dominio>"
+            },
+            {
+                "tag": "<let_num>"
+            }
+        ],
+        "productions": [
+            {
+                "leftSide": "<email>",
+                "rightSide": [
+                    "<identificador>",
+                    "ar:@",
+                    "<dominio>"
+                ]
+            },
+            {
+                "leftSide": "<identificador>",
+                "rightSide": [
+                    "let",
+                    "<let_num>"
+                ]
+            },
+            {
+                "leftSide": "<identificador>",
+                "rightSide": [
+                    "num",
+                    "<let_num>"
+                ]
+            },
+            {
+                "leftSide": "<let_num>",
+                "rightSide": [
+                    "let",
+                    "<let_num>"
+                ]
+            },
+            {
+                "leftSide": "<let_num>",
+                "rightSide": [
+                    "num",
+                    "<let_num>"
+                ]
+            },
+            {
+                "leftSide": "<let_num>",
+                "rightSide": [
+                    "sim:_",
+                    "<let_num>"
+                ]
+            },
+            {
+                "leftSide": "<let_num>",
+                "rightSide": [
+                    "sim:-",
+                    "<let_num>"
+                ]
+            },
+            {
+                "leftSide": "<let_num>",
+                "rightSide": [
+                    "sim:.",
+                    "<let_num>"
+                ]
+            },
+            {
+                "leftSide": "<let_num>",
+                "rightSide": []
+            },
+            {
+                "leftSide": "<dominio>",
+                "rightSide": [
+                    "let",
+                    "sim:.",
+                    "let"
+                ]
+            }
+        ]
+    }
+]

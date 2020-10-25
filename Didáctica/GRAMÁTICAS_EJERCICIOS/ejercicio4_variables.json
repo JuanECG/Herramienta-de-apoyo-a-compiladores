@@ -1,0 +1,160 @@
+[
+    {
+        "lastMod": "2020-10-24 16:01:29.880933",
+        "projectName": "ejercicio4_variables",
+        "status": "syntactic"
+    },
+    {
+        "module": "lexicon",
+        "subsets": [
+            {
+                "description": "Cualquier carácter alfabético entre a y z",
+                "expression": "[a-z]",
+                "identifier": "l"
+            },
+            {
+                "description": "Cualquier carácter alfabético entre A y Z",
+                "expression": "[A-Z]",
+                "identifier": "L"
+            },
+            {
+                "description": "Cualquier dígito entre 0 y 9",
+                "expression": "[0-9]",
+                "identifier": "d"
+            },
+            {
+                "description": "Cualquier carácter (Excepto, nueva línea)",
+                "expression": ".",
+                "identifier": "."
+            },
+            {
+                "description": "Permite reconocer cero o más ocurrencias del caracter antes de este",
+                "expression": "*",
+                "identifier": "*"
+            },
+            {
+                "description": "Permite reconocer uno o más ocurrencias del caracter antes de este",
+                "expression": "+",
+                "identifier": "+"
+            }
+        ],
+        "tokens": [
+            {
+                "name": "type",
+                "regularExp": "(int|string|boolean|char|float|any)",
+                "setExp": [
+                    "int",
+                    "string",
+                    "boolean",
+                    "char",
+                    "float",
+                    "any"
+                ],
+                "typeExp": 1
+            },
+            {
+                "name": "sp",
+                "regularExp": "(,|;)",
+                "setExp": [
+                    ",",
+                    ";"
+                ],
+                "typeExp": 1
+            },
+            {
+                "name": "id",
+                "regularExp": "l(l|d)*",
+                "setExp": null,
+                "typeExp": 0
+            }
+        ]
+    },
+    {
+        "errorsDictionary": [
+            {
+                "charSymbols": [],
+                "stackSymbol": "<declaration>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<declared variable list>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<type>"
+            }
+        ],
+        "module": "syntactic",
+        "ntSymbols": [
+            {
+                "tag": "<declaration>"
+            },
+            {
+                "tag": "<declared variable list>"
+            },
+            {
+                "tag": "<type>"
+            }
+        ],
+        "productions": [
+            {
+                "leftSide": "<declaration>",
+                "rightSide": [
+                    "<type>",
+                    "id",
+                    "<declared variable list>"
+                ]
+            },
+            {
+                "leftSide": "<declared variable list>",
+                "rightSide": [
+                    "sp:,",
+                    "id",
+                    "<declared variable list>"
+                ]
+            },
+            {
+                "leftSide": "<declared variable list>",
+                "rightSide": [
+                    "sp:;"
+                ]
+            },
+            {
+                "leftSide": "<type>",
+                "rightSide": [
+                    "type:int"
+                ]
+            },
+            {
+                "leftSide": "<type>",
+                "rightSide": [
+                    "type:string"
+                ]
+            },
+            {
+                "leftSide": "<type>",
+                "rightSide": [
+                    "type:boolean"
+                ]
+            },
+            {
+                "leftSide": "<type>",
+                "rightSide": [
+                    "type:char"
+                ]
+            },
+            {
+                "leftSide": "<type>",
+                "rightSide": [
+                    "type:float"
+                ]
+            },
+            {
+                "leftSide": "<type>",
+                "rightSide": [
+                    "type:any"
+                ]
+            }
+        ]
+    }
+]

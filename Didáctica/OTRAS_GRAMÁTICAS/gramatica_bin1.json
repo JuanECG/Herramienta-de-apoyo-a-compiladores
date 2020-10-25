@@ -1,0 +1,111 @@
+[
+    {
+        "lastMod": "2020-10-06 12:50:45.944557",
+        "projectName": "gramatica_bin1",
+        "status": "syntactic"
+    },
+    {
+        "module": "lexicon",
+        "subsets": [
+            {
+                "description": "Cualquier car\u00e1cter alfab\u00e9tico entre a y z",
+                "expression": "[a-z]",
+                "identifier": "l"
+            },
+            {
+                "description": "Cualquier car\u00e1cter alfab\u00e9tico entre A y Z",
+                "expression": "[A-Z]",
+                "identifier": "L"
+            },
+            {
+                "description": "Cualquier d\u00edgito entre 0 y 9",
+                "expression": "[0-9]",
+                "identifier": "d"
+            },
+            {
+                "description": "Cualquier car\u00e1cter (Excepto, nueva l\u00ednea)",
+                "expression": ".",
+                "identifier": "."
+            },
+            {
+                "description": "Permite reconocer cero o m\u00e1s ocurrencias del caracter antes de este",
+                "expression": "*",
+                "identifier": "*"
+            },
+            {
+                "description": "Permite reconocer uno o m\u00e1s ocurrencias del caracter antes de este",
+                "expression": "+",
+                "identifier": "+"
+            }
+        ],
+        "tokens": [
+            {
+                "name": "bin",
+                "regularExp": "(1|0)",
+                "setExp": [
+                    "1",
+                    "0"
+                ],
+                "typeExp": 1
+            }
+        ]
+    },
+    {
+        "errorsDictionary": [
+            {
+                "charSymbols": [],
+                "stackSymbol": "<X>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<Y>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<Z>"
+            }
+        ],
+        "module": "syntactic",
+        "ntSymbols": [
+            {
+                "tag": "<X>"
+            },
+            {
+                "tag": "<Y>"
+            },
+            {
+                "tag": "<Z>"
+            }
+        ],
+        "productions": [
+            {
+                "leftSide": "<X>",
+                "rightSide": [
+                    "bin:0",
+                    "<Y>"
+                ]
+            },
+            {
+                "leftSide": "<Y>",
+                "rightSide": [
+                    "bin:1",
+                    "bin:0"
+                ]
+            },
+            {
+                "leftSide": "<X>",
+                "rightSide": [
+                    "bin:1",
+                    "<Z>"
+                ]
+            },
+            {
+                "leftSide": "<Z>",
+                "rightSide": [
+                    "bin:0",
+                    "bin:0"
+                ]
+            }
+        ]
+    }
+]

@@ -1,0 +1,131 @@
+[
+    {
+        "lastMod": "2020-10-24 16:30:11.859634",
+        "projectName": "gramática NT muertos",
+        "status": "syntactic"
+    },
+    {
+        "module": "lexicon",
+        "subsets": [
+            {
+                "description": "Cualquier carácter alfabético entre a y z",
+                "expression": "[a-z]",
+                "identifier": "l"
+            },
+            {
+                "description": "Cualquier carácter alfabético entre A y Z",
+                "expression": "[A-Z]",
+                "identifier": "L"
+            },
+            {
+                "description": "Cualquier dígito entre 0 y 9",
+                "expression": "[0-9]",
+                "identifier": "d"
+            },
+            {
+                "description": "Cualquier carácter (Excepto, nueva línea)",
+                "expression": ".",
+                "identifier": "."
+            },
+            {
+                "description": "Permite reconocer cero o más ocurrencias del caracter antes de este",
+                "expression": "*",
+                "identifier": "*"
+            },
+            {
+                "description": "Permite reconocer uno o más ocurrencias del caracter antes de este",
+                "expression": "+",
+                "identifier": "+"
+            }
+        ],
+        "tokens": [
+            {
+                "name": "var",
+                "regularExp": "(x|y)",
+                "setExp": [
+                    "x",
+                    "y"
+                ],
+                "typeExp": 1
+            }
+        ]
+    },
+    {
+        "errorsDictionary": [
+            {
+                "charSymbols": [],
+                "stackSymbol": "<A>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<B>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<C>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<D>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<E>"
+            }
+        ],
+        "module": "syntactic",
+        "ntSymbols": [
+            {
+                "tag": "<A>"
+            },
+            {
+                "tag": "<B>"
+            },
+            {
+                "tag": "<C>"
+            },
+            {
+                "tag": "<D>"
+            },
+            {
+                "tag": "<E>"
+            }
+        ],
+        "productions": [
+            {
+                "leftSide": "<A>",
+                "rightSide": [
+                    "var:y",
+                    "<B>",
+                    "var:y"
+                ]
+            },
+            {
+                "leftSide": "<A>",
+                "rightSide": [
+                    "var:x"
+                ]
+            },
+            {
+                "leftSide": "<B>",
+                "rightSide": [
+                    "<C>",
+                    "var:y",
+                    "<D>"
+                ]
+            },
+            {
+                "leftSide": "<C>",
+                "rightSide": [
+                    "var:y"
+                ]
+            },
+            {
+                "leftSide": "<D>",
+                "rightSide": [
+                    "<E>"
+                ]
+            }
+        ]
+    }
+]

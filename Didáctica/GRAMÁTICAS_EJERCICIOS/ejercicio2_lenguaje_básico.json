@@ -1,0 +1,77 @@
+[
+    {
+        "lastMod": "2020-10-24 15:39:19.046862",
+        "projectName": "ejercicio2_lenguaje_básico",
+        "status": "syntactic"
+    },
+    {
+        "module": "lexicon",
+        "subsets": [
+            {
+                "description": "Cualquier carácter alfabético entre a y z",
+                "expression": "[a-z]",
+                "identifier": "l"
+            },
+            {
+                "description": "Cualquier carácter alfabético entre A y Z",
+                "expression": "[A-Z]",
+                "identifier": "L"
+            },
+            {
+                "description": "Cualquier dígito entre 0 y 9",
+                "expression": "[0-9]",
+                "identifier": "d"
+            },
+            {
+                "description": "Cualquier carácter (Excepto, nueva línea)",
+                "expression": ".",
+                "identifier": "."
+            },
+            {
+                "description": "Permite reconocer cero o más ocurrencias del caracter antes de este",
+                "expression": "*",
+                "identifier": "*"
+            },
+            {
+                "description": "Permite reconocer uno o más ocurrencias del caracter antes de este",
+                "expression": "+",
+                "identifier": "+"
+            }
+        ],
+        "tokens": [
+            {
+                "name": "reserved",
+                "regularExp": "(while|if|True|False)",
+                "setExp": [
+                    "while",
+                    "if",
+                    "True",
+                    "False"
+                ],
+                "typeExp": 1
+            },
+            {
+                "name": "types",
+                "regularExp": "(int|bool|char|string)",
+                "setExp": [
+                    "int",
+                    "bool",
+                    "char",
+                    "string"
+                ],
+                "typeExp": 1
+            }
+        ]
+    },
+    {
+        "errorsDictionary": [],
+        "module": "syntactic",
+        "ntSymbols": [],
+        "productions": [
+            {
+                "leftSide": null,
+                "rightSide": []
+            }
+        ]
+    }
+]

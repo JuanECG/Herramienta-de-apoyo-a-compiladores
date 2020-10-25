@@ -1,0 +1,170 @@
+[
+    {
+        "lastMod": "2020-09-07 13:10:25.063994",
+        "projectName": "gramatica_ED",
+        "status": "syntactic"
+    },
+    {
+        "module": "lexicon",
+        "subsets": [
+            {
+                "description": "Cualquier car\u00e1cter alfab\u00e9tico entre a y z",
+                "expression": "[a-z]",
+                "identifier": "l"
+            },
+            {
+                "description": "Cualquier car\u00e1cter alfab\u00e9tico entre A y Z",
+                "expression": "[A-Z]",
+                "identifier": "L"
+            },
+            {
+                "description": "Cualquier d\u00edgito entre 0 y 9",
+                "expression": "[0-9]",
+                "identifier": "d"
+            },
+            {
+                "description": "Cualquier car\u00e1cter (Excepto, nueva l\u00ednea)",
+                "expression": ".",
+                "identifier": "."
+            },
+            {
+                "description": "Permite reconocer cero o m\u00e1s ocurrencias del caracter antes de este",
+                "expression": "*",
+                "identifier": "*"
+            },
+            {
+                "description": "Permite reconocer uno o m\u00e1s ocurrencias del caracter antes de este",
+                "expression": "+",
+                "identifier": "+"
+            }
+        ],
+        "tokens": [
+            {
+                "name": "let",
+                "regularExp": "(a|b|c|d|e|f)",
+                "setExp": [
+                    "a",
+                    "b",
+                    "c",
+                    "d",
+                    "e",
+                    "f"
+                ],
+                "typeExp": 1
+            }
+        ]
+    },
+    {
+        "errorsDictionary": [
+            {
+                "charSymbols": [],
+                "stackSymbol": "<A>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<B>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<C>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<D>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<E>"
+            }
+        ],
+        "module": "syntactic",
+        "ntSymbols": [
+            {
+                "tag": "<A>"
+            },
+            {
+                "tag": "<B>"
+            },
+            {
+                "tag": "<C>"
+            },
+            {
+                "tag": "<D>"
+            },
+            {
+                "tag": "<E>"
+            }
+        ],
+        "productions": [
+            {
+                "leftSide": "<A>",
+                "rightSide": [
+                    "<B>",
+                    "<C>",
+                    "let:c"
+                ]
+            },
+            {
+                "leftSide": "<A>",
+                "rightSide": [
+                    "let:e",
+                    "<D>",
+                    "<B>"
+                ]
+            },
+            {
+                "leftSide": "<B>",
+                "rightSide": []
+            },
+            {
+                "leftSide": "<B>",
+                "rightSide": [
+                    "let:b",
+                    "<C>",
+                    "<D>",
+                    "<E>"
+                ]
+            },
+            {
+                "leftSide": "<C>",
+                "rightSide": [
+                    "<D>",
+                    "let:a",
+                    "<B>"
+                ]
+            },
+            {
+                "leftSide": "<C>",
+                "rightSide": [
+                    "let:c",
+                    "let:a"
+                ]
+            },
+            {
+                "leftSide": "<D>",
+                "rightSide": []
+            },
+            {
+                "leftSide": "<D>",
+                "rightSide": [
+                    "let:d",
+                    "<D>"
+                ]
+            },
+            {
+                "leftSide": "<E>",
+                "rightSide": [
+                    "let:a",
+                    "<A>",
+                    "let:f"
+                ]
+            },
+            {
+                "leftSide": "<E>",
+                "rightSide": [
+                    "let:e"
+                ]
+            }
+        ]
+    }
+]

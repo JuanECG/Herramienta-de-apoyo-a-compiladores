@@ -1,0 +1,101 @@
+[
+    {
+        "lastMod": "2020-10-06 11:38:12.999130",
+        "projectName": "gramatica_atom",
+        "status": "syntactic"
+    },
+    {
+        "module": "lexicon",
+        "subsets": [
+            {
+                "description": "Cualquier car\u00e1cter alfab\u00e9tico entre a y z",
+                "expression": "[a-z]",
+                "identifier": "l"
+            },
+            {
+                "description": "Cualquier car\u00e1cter alfab\u00e9tico entre A y Z",
+                "expression": "[A-Z]",
+                "identifier": "L"
+            },
+            {
+                "description": "Cualquier d\u00edgito entre 0 y 9",
+                "expression": "[0-9]",
+                "identifier": "d"
+            },
+            {
+                "description": "Cualquier car\u00e1cter (Excepto, nueva l\u00ednea)",
+                "expression": ".",
+                "identifier": "."
+            },
+            {
+                "description": "Permite reconocer cero o m\u00e1s ocurrencias del caracter antes de este",
+                "expression": "*",
+                "identifier": "*"
+            },
+            {
+                "description": "Permite reconocer uno o m\u00e1s ocurrencias del caracter antes de este",
+                "expression": "+",
+                "identifier": "+"
+            }
+        ],
+        "tokens": [
+            {
+                "name": "exp",
+                "regularExp": "(ATOM)",
+                "setExp": [
+                    "ATOM"
+                ],
+                "typeExp": 1
+            },
+            {
+                "name": "agr",
+                "regularExp": "(\\(|\\))",
+                "setExp": [
+                    "(",
+                    ")"
+                ],
+                "typeExp": 1
+            },
+            {
+                "name": "pnto",
+                "regularExp": "(\\.)",
+                "setExp": [
+                    "."
+                ],
+                "typeExp": 1
+            }
+        ]
+    },
+    {
+        "errorsDictionary": [
+            {
+                "charSymbols": [],
+                "stackSymbol": "<S>"
+            }
+        ],
+        "module": "syntactic",
+        "ntSymbols": [
+            {
+                "tag": "<S>"
+            }
+        ],
+        "productions": [
+            {
+                "leftSide": "<S>",
+                "rightSide": [
+                    "exp:ATOM"
+                ]
+            },
+            {
+                "leftSide": "<S>",
+                "rightSide": [
+                    "agr:(",
+                    "<S>",
+                    "pnto:.",
+                    "<S>",
+                    "agr:)"
+                ]
+            }
+        ]
+    }
+]

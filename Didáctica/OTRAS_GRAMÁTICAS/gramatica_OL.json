@@ -1,0 +1,352 @@
+[
+    {
+        "lastMod": "2020-10-05 15:54:45.054013",
+        "projectName": "gramatica_OL",
+        "status": "syntactic"
+    },
+    {
+        "module": "lexicon",
+        "subsets": [
+            {
+                "description": "Cualquier car\u00e1cter alfab\u00e9tico entre a y z",
+                "expression": "[a-z]",
+                "identifier": "l"
+            },
+            {
+                "description": "Cualquier car\u00e1cter alfab\u00e9tico entre A y Z",
+                "expression": "[A-Z]",
+                "identifier": "L"
+            },
+            {
+                "description": "Cualquier d\u00edgito entre 0 y 9",
+                "expression": "[0-9]",
+                "identifier": "d"
+            },
+            {
+                "description": "Cualquier car\u00e1cter (Excepto, nueva l\u00ednea)",
+                "expression": ".",
+                "identifier": "."
+            },
+            {
+                "description": "Permite reconocer cero o m\u00e1s ocurrencias del caracter antes de este",
+                "expression": "*",
+                "identifier": "*"
+            },
+            {
+                "description": "Permite reconocer uno o m\u00e1s ocurrencias del caracter antes de este",
+                "expression": "+",
+                "identifier": "+"
+            }
+        ],
+        "tokens": [
+            {
+                "name": "opc",
+                "regularExp": "(>=|<=|==|!=|<|>)",
+                "setExp": [
+                    ">=",
+                    "<=",
+                    "==",
+                    "!=",
+                    "<",
+                    ">"
+                ],
+                "typeExp": 1
+            },
+            {
+                "name": "op",
+                "regularExp": "(\\+|\\-|\\*|/)",
+                "setExp": [
+                    "+",
+                    "-",
+                    "*",
+                    "/"
+                ],
+                "typeExp": 1
+            },
+            {
+                "name": "opla",
+                "regularExp": "(&&)",
+                "setExp": [
+                    "&&"
+                ],
+                "typeExp": 1
+            },
+            {
+                "name": "oplo",
+                "regularExp": "(\\|\\|)",
+                "setExp": [
+                    "||"
+                ],
+                "typeExp": 1
+            },
+            {
+                "name": "num",
+                "regularExp": "d+",
+                "setExp": null,
+                "typeExp": 0
+            },
+            {
+                "name": "agr",
+                "regularExp": "(\\(|\\))",
+                "setExp": [
+                    "(",
+                    ")"
+                ],
+                "typeExp": 1
+            }
+        ]
+    },
+    {
+        "errorsDictionary": [
+            {
+                "charSymbols": [],
+                "stackSymbol": "<OL>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<EL>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<OL_L>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<ER>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<OL2_L>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<ER_L>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<E>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<OR>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<T>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<E_L>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<P>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<T_L>"
+            }
+        ],
+        "module": "syntactic",
+        "ntSymbols": [
+            {
+                "tag": "<OL>"
+            },
+            {
+                "tag": "<EL>"
+            },
+            {
+                "tag": "<OL_L>"
+            },
+            {
+                "tag": "<ER>"
+            },
+            {
+                "tag": "<OL2_L>"
+            },
+            {
+                "tag": "<ER_L>"
+            },
+            {
+                "tag": "<E>"
+            },
+            {
+                "tag": "<OR>"
+            },
+            {
+                "tag": "<T>"
+            },
+            {
+                "tag": "<E_L>"
+            },
+            {
+                "tag": "<P>"
+            },
+            {
+                "tag": "<T_L>"
+            }
+        ],
+        "productions": [
+            {
+                "leftSide": "<OL>",
+                "rightSide": [
+                    "<EL>",
+                    "<OL_L>"
+                ]
+            },
+            {
+                "leftSide": "<OL_L>",
+                "rightSide": [
+                    "oplo:||",
+                    "<EL>",
+                    "<OL_L>"
+                ]
+            },
+            {
+                "leftSide": "<OL_L>",
+                "rightSide": []
+            },
+            {
+                "leftSide": "<EL>",
+                "rightSide": [
+                    "<ER>",
+                    "<OL2_L>"
+                ]
+            },
+            {
+                "leftSide": "<OL2_L>",
+                "rightSide": [
+                    "opla:&&",
+                    "<ER>",
+                    "<OL2_L>"
+                ]
+            },
+            {
+                "leftSide": "<OL2_L>",
+                "rightSide": []
+            },
+            {
+                "leftSide": "<ER>",
+                "rightSide": [
+                    "<E>",
+                    "<ER_L>"
+                ]
+            },
+            {
+                "leftSide": "<ER_L>",
+                "rightSide": [
+                    "<OR>",
+                    "<E>"
+                ]
+            },
+            {
+                "leftSide": "<ER_L>",
+                "rightSide": []
+            },
+            {
+                "leftSide": "<OR>",
+                "rightSide": [
+                    "opc:>="
+                ]
+            },
+            {
+                "leftSide": "<OR>",
+                "rightSide": [
+                    "opc:<="
+                ]
+            },
+            {
+                "leftSide": "<OR>",
+                "rightSide": [
+                    "opc:=="
+                ]
+            },
+            {
+                "leftSide": "<OR>",
+                "rightSide": [
+                    "opc:!="
+                ]
+            },
+            {
+                "leftSide": "<OR>",
+                "rightSide": [
+                    "opc:<"
+                ]
+            },
+            {
+                "leftSide": "<OR>",
+                "rightSide": [
+                    "opc:>"
+                ]
+            },
+            {
+                "leftSide": "<E>",
+                "rightSide": [
+                    "<T>",
+                    "<E_L>"
+                ]
+            },
+            {
+                "leftSide": "<E_L>",
+                "rightSide": [
+                    "op:+",
+                    "<T>",
+                    "<E_L>"
+                ]
+            },
+            {
+                "leftSide": "<E_L>",
+                "rightSide": [
+                    "op:-",
+                    "<T>",
+                    "<E_L>"
+                ]
+            },
+            {
+                "leftSide": "<E_L>",
+                "rightSide": []
+            },
+            {
+                "leftSide": "<T>",
+                "rightSide": [
+                    "<P>",
+                    "<T_L>"
+                ]
+            },
+            {
+                "leftSide": "<T_L>",
+                "rightSide": [
+                    "op:/",
+                    "<P>",
+                    "<T_L>"
+                ]
+            },
+            {
+                "leftSide": "<T_L>",
+                "rightSide": [
+                    "op:*",
+                    "<P>",
+                    "<T_L>"
+                ]
+            },
+            {
+                "leftSide": "<T_L>",
+                "rightSide": []
+            },
+            {
+                "leftSide": "<P>",
+                "rightSide": [
+                    "num"
+                ]
+            },
+            {
+                "leftSide": "<P>",
+                "rightSide": [
+                    "agr:(",
+                    "<OL>",
+                    "agr:)"
+                ]
+            }
+        ]
+    }
+]

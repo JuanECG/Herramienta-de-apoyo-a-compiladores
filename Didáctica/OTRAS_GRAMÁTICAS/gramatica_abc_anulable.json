@@ -1,0 +1,125 @@
+[
+    {
+        "lastMod": "2020-10-08 13:27:46.464804",
+        "projectName": "gramatica_abc_anulable",
+        "status": "syntactic"
+    },
+    {
+        "module": "lexicon",
+        "subsets": [
+            {
+                "description": "Cualquier car\u00e1cter alfab\u00e9tico entre a y z",
+                "expression": "[a-z]",
+                "identifier": "l"
+            },
+            {
+                "description": "Cualquier car\u00e1cter alfab\u00e9tico entre A y Z",
+                "expression": "[A-Z]",
+                "identifier": "L"
+            },
+            {
+                "description": "Cualquier d\u00edgito entre 0 y 9",
+                "expression": "[0-9]",
+                "identifier": "d"
+            },
+            {
+                "description": "Cualquier car\u00e1cter (Excepto, nueva l\u00ednea)",
+                "expression": ".",
+                "identifier": "."
+            },
+            {
+                "description": "Permite reconocer cero o m\u00e1s ocurrencias del caracter antes de este",
+                "expression": "*",
+                "identifier": "*"
+            },
+            {
+                "description": "Permite reconocer uno o m\u00e1s ocurrencias del caracter antes de este",
+                "expression": "+",
+                "identifier": "+"
+            }
+        ],
+        "tokens": [
+            {
+                "name": "let",
+                "regularExp": "(a|b|c)",
+                "setExp": [
+                    "a",
+                    "b",
+                    "c"
+                ],
+                "typeExp": 1
+            }
+        ]
+    },
+    {
+        "errorsDictionary": [
+            {
+                "charSymbols": [],
+                "stackSymbol": "<A>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<A_L>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<B>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<C>"
+            }
+        ],
+        "module": "syntactic",
+        "ntSymbols": [
+            {
+                "tag": "<A>"
+            },
+            {
+                "tag": "<A_L>"
+            },
+            {
+                "tag": "<B>"
+            },
+            {
+                "tag": "<C>"
+            }
+        ],
+        "productions": [
+            {
+                "leftSide": "<A>",
+                "rightSide": [
+                    "let:a",
+                    "<A_L>"
+                ]
+            },
+            {
+                "leftSide": "<A_L>",
+                "rightSide": [
+                    "<B>",
+                    "<C>"
+                ]
+            },
+            {
+                "leftSide": "<B>",
+                "rightSide": [
+                    "let:b"
+                ]
+            },
+            {
+                "leftSide": "<B>",
+                "rightSide": []
+            },
+            {
+                "leftSide": "<C>",
+                "rightSide": [
+                    "let:c"
+                ]
+            },
+            {
+                "leftSide": "<C>",
+                "rightSide": []
+            }
+        ]
+    }
+]

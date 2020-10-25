@@ -1,0 +1,173 @@
+[
+    {
+        "lastMod": "2020-10-24 16:17:47.625118",
+        "projectName": "ejercicio5_gramática_oración",
+        "status": "syntactic"
+    },
+    {
+        "module": "lexicon",
+        "subsets": [
+            {
+                "description": "Cualquier carácter alfabético entre a y z",
+                "expression": "[a-z]",
+                "identifier": "l"
+            },
+            {
+                "description": "Cualquier carácter alfabético entre A y Z",
+                "expression": "[A-Z]",
+                "identifier": "L"
+            },
+            {
+                "description": "Cualquier dígito entre 0 y 9",
+                "expression": "[0-9]",
+                "identifier": "d"
+            },
+            {
+                "description": "Cualquier carácter (Excepto, nueva línea)",
+                "expression": ".",
+                "identifier": "."
+            },
+            {
+                "description": "Permite reconocer cero o más ocurrencias del caracter antes de este",
+                "expression": "*",
+                "identifier": "*"
+            },
+            {
+                "description": "Permite reconocer uno o más ocurrencias del caracter antes de este",
+                "expression": "+",
+                "identifier": "+"
+            }
+        ],
+        "tokens": [
+            {
+                "name": "n",
+                "regularExp": "(chico|chica)",
+                "setExp": [
+                    "chico",
+                    "chica"
+                ],
+                "typeExp": 1
+            },
+            {
+                "name": "a",
+                "regularExp": "(el|la)",
+                "setExp": [
+                    "el",
+                    "la"
+                ],
+                "typeExp": 1
+            },
+            {
+                "name": "v",
+                "regularExp": "(mira a)",
+                "setExp": [
+                    "mira a"
+                ],
+                "typeExp": 1
+            }
+        ]
+    },
+    {
+        "errorsDictionary": [
+            {
+                "charSymbols": [],
+                "stackSymbol": "<oración>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<sujeto>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<verbo>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<complemento>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<artículo>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<nombre>"
+            }
+        ],
+        "module": "syntactic",
+        "ntSymbols": [
+            {
+                "tag": "<oración>"
+            },
+            {
+                "tag": "<sujeto>"
+            },
+            {
+                "tag": "<verbo>"
+            },
+            {
+                "tag": "<complemento>"
+            },
+            {
+                "tag": "<artículo>"
+            },
+            {
+                "tag": "<nombre>"
+            }
+        ],
+        "productions": [
+            {
+                "leftSide": "<oración>",
+                "rightSide": [
+                    "<sujeto>",
+                    "<verbo>",
+                    "<complemento>"
+                ]
+            },
+            {
+                "leftSide": "<sujeto>",
+                "rightSide": [
+                    "<artículo>",
+                    "<nombre>"
+                ]
+            },
+            {
+                "leftSide": "<complemento>",
+                "rightSide": [
+                    "<artículo>",
+                    "<nombre>"
+                ]
+            },
+            {
+                "leftSide": "<verbo>",
+                "rightSide": [
+                    "v:mira a"
+                ]
+            },
+            {
+                "leftSide": "<artículo>",
+                "rightSide": [
+                    "a:el"
+                ]
+            },
+            {
+                "leftSide": "<artículo>",
+                "rightSide": [
+                    "a:la"
+                ]
+            },
+            {
+                "leftSide": "<nombre>",
+                "rightSide": [
+                    "n:chico"
+                ]
+            },
+            {
+                "leftSide": "<nombre>",
+                "rightSide": [
+                    "n:chica"
+                ]
+            }
+        ]
+    }
+]

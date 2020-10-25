@@ -1,0 +1,145 @@
+[
+    {
+        "lastMod": "2020-10-23 13:32:37.688202",
+        "projectName": "gramatica_celular",
+        "status": "syntactic"
+    },
+    {
+        "module": "lexicon",
+        "subsets": [
+            {
+                "description": "Cualquier car\u00e1cter alfab\u00e9tico entre a y z",
+                "expression": "[a-z]",
+                "identifier": "l"
+            },
+            {
+                "description": "Cualquier car\u00e1cter alfab\u00e9tico entre A y Z",
+                "expression": "[A-Z]",
+                "identifier": "L"
+            },
+            {
+                "description": "Cualquier d\u00edgito entre 0 y 9",
+                "expression": "[0-9]",
+                "identifier": "d"
+            },
+            {
+                "description": "Cualquier car\u00e1cter (Excepto, nueva l\u00ednea)",
+                "expression": ".",
+                "identifier": "."
+            },
+            {
+                "description": "Permite reconocer cero o m\u00e1s ocurrencias del caracter antes de este",
+                "expression": "*",
+                "identifier": "*"
+            },
+            {
+                "description": "Permite reconocer uno o m\u00e1s ocurrencias del caracter antes de este",
+                "expression": "+",
+                "identifier": "+"
+            }
+        ],
+        "tokens": [
+            {
+                "name": "tres",
+                "regularExp": "3",
+                "setExp": null,
+                "typeExp": 0
+            },
+            {
+                "name": "no_tres",
+                "regularExp": "[0-24-9]",
+                "setExp": null,
+                "typeExp": 0
+            }
+        ]
+    },
+    {
+        "errorsDictionary": [
+            {
+                "charSymbols": [],
+                "stackSymbol": "<celular>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<inicio>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<medio>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<fin>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<any>"
+            }
+        ],
+        "module": "syntactic",
+        "ntSymbols": [
+            {
+                "tag": "<celular>"
+            },
+            {
+                "tag": "<inicio>"
+            },
+            {
+                "tag": "<medio>"
+            },
+            {
+                "tag": "<fin>"
+            },
+            {
+                "tag": "<any>"
+            }
+        ],
+        "productions": [
+            {
+                "leftSide": "<celular>",
+                "rightSide": [
+                    "<inicio>",
+                    "<medio>",
+                    "<fin>"
+                ]
+            },
+            {
+                "leftSide": "<inicio>",
+                "rightSide": [
+                    "tres",
+                    "no_tres",
+                    "no_tres"
+                ]
+            },
+            {
+                "leftSide": "<medio>",
+                "rightSide": [
+                    "<any>",
+                    "<any>",
+                    "<any>"
+                ]
+            },
+            {
+                "leftSide": "<any>",
+                "rightSide": [
+                    "tres"
+                ]
+            },
+            {
+                "leftSide": "<any>",
+                "rightSide": [
+                    "no_tres"
+                ]
+            },
+            {
+                "leftSide": "<fin>",
+                "rightSide": [
+                    "<any>",
+                    "<any>",
+                    "<any>",
+                    "<any>"
+                ]
+            }
+        ]
+    }
+]

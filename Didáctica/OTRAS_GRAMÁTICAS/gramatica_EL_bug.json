@@ -1,0 +1,216 @@
+[
+    {
+        "lastMod": "2020-10-17 13:19:17.863689",
+        "projectName": "gramatica_EL_bug",
+        "status": "syntactic"
+    },
+    {
+        "module": "lexicon",
+        "subsets": [
+            {
+                "description": "Cualquier car\u00e1cter alfab\u00e9tico entre a y z",
+                "expression": "[a-z]",
+                "identifier": "l"
+            },
+            {
+                "description": "Cualquier car\u00e1cter alfab\u00e9tico entre A y Z",
+                "expression": "[A-Z]",
+                "identifier": "L"
+            },
+            {
+                "description": "Cualquier d\u00edgito entre 0 y 9",
+                "expression": "[0-9]",
+                "identifier": "d"
+            },
+            {
+                "description": "Cualquier car\u00e1cter (Excepto, nueva l\u00ednea)",
+                "expression": ".",
+                "identifier": "."
+            },
+            {
+                "description": "Permite reconocer cero o m\u00e1s ocurrencias del caracter antes de este",
+                "expression": "*",
+                "identifier": "*"
+            },
+            {
+                "description": "Permite reconocer uno o m\u00e1s ocurrencias del caracter antes de este",
+                "expression": "+",
+                "identifier": "+"
+            }
+        ],
+        "tokens": [
+            {
+                "name": "num",
+                "regularExp": "d+",
+                "setExp": null,
+                "typeExp": 0
+            },
+            {
+                "name": "op",
+                "regularExp": "(\\+|\\-|\\*|/)",
+                "setExp": [
+                    "+",
+                    "-",
+                    "*",
+                    "/"
+                ],
+                "typeExp": 1
+            },
+            {
+                "name": "agr",
+                "regularExp": "(\\(|\\))",
+                "setExp": [
+                    "(",
+                    ")"
+                ],
+                "typeExp": 1
+            }
+        ]
+    },
+    {
+        "errorsDictionary": [
+            {
+                "charSymbols": [
+                    {
+                        "message": "Error1",
+                        "symbol": "op:+"
+                    },
+                    {
+                        "message": "Error2",
+                        "symbol": "op:-"
+                    },
+                    {
+                        "message": "Error3",
+                        "symbol": "op:*"
+                    },
+                    {
+                        "message": "Error4",
+                        "symbol": "op:/"
+                    },
+                    {
+                        "message": "Error5",
+                        "symbol": "agr:)"
+                    },
+                    {
+                        "message": "Error6",
+                        "symbol": "\u00ac"
+                    }
+                ],
+                "stackSymbol": "<E>"
+            },
+            {
+                "charSymbols": [
+                    {
+                        "message": "Error7",
+                        "symbol": "num"
+                    },
+                    {
+                        "message": "Error8",
+                        "symbol": "op:*"
+                    }
+                ],
+                "stackSymbol": "<E_L>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<T>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<T_L>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<P>"
+            }
+        ],
+        "module": "syntactic",
+        "ntSymbols": [
+            {
+                "tag": "<E>"
+            },
+            {
+                "tag": "<E_L>"
+            },
+            {
+                "tag": "<T>"
+            },
+            {
+                "tag": "<T_L>"
+            },
+            {
+                "tag": "<P>"
+            }
+        ],
+        "productions": [
+            {
+                "leftSide": "<E>",
+                "rightSide": [
+                    "<T>",
+                    "<E_L>"
+                ]
+            },
+            {
+                "leftSide": "<E_L>",
+                "rightSide": [
+                    "op:+",
+                    "<T>",
+                    "<E_L>"
+                ]
+            },
+            {
+                "leftSide": "<E_L>",
+                "rightSide": [
+                    "op:-",
+                    "<T>",
+                    "<E_L>"
+                ]
+            },
+            {
+                "leftSide": "<E_L>",
+                "rightSide": []
+            },
+            {
+                "leftSide": "<T>",
+                "rightSide": [
+                    "<P>",
+                    "<T_L>"
+                ]
+            },
+            {
+                "leftSide": "<T_L>",
+                "rightSide": [
+                    "op:*",
+                    "<P>",
+                    "<T_L>"
+                ]
+            },
+            {
+                "leftSide": "<T_L>",
+                "rightSide": [
+                    "op:/",
+                    "<P>",
+                    "<T_L>"
+                ]
+            },
+            {
+                "leftSide": "<T_L>",
+                "rightSide": []
+            },
+            {
+                "leftSide": "<P>",
+                "rightSide": [
+                    "agr:(",
+                    "<E>",
+                    "agr:)"
+                ]
+            },
+            {
+                "leftSide": "<P>",
+                "rightSide": [
+                    "num"
+                ]
+            }
+        ]
+    }
+]

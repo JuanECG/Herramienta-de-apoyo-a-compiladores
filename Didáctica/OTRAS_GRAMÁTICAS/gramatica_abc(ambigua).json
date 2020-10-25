@@ -1,0 +1,104 @@
+[
+    {
+        "lastMod": "2020-10-06 09:59:18.170340",
+        "projectName": "gramatica_abc",
+        "status": "syntactic"
+    },
+    {
+        "module": "lexicon",
+        "subsets": [
+            {
+                "description": "Cualquier car\u00e1cter alfab\u00e9tico entre a y z",
+                "expression": "[a-z]",
+                "identifier": "l"
+            },
+            {
+                "description": "Cualquier car\u00e1cter alfab\u00e9tico entre A y Z",
+                "expression": "[A-Z]",
+                "identifier": "L"
+            },
+            {
+                "description": "Cualquier d\u00edgito entre 0 y 9",
+                "expression": "[0-9]",
+                "identifier": "d"
+            },
+            {
+                "description": "Cualquier car\u00e1cter (Excepto, nueva l\u00ednea)",
+                "expression": ".",
+                "identifier": "."
+            },
+            {
+                "description": "Permite reconocer cero o m\u00e1s ocurrencias del caracter antes de este",
+                "expression": "*",
+                "identifier": "*"
+            },
+            {
+                "description": "Permite reconocer uno o m\u00e1s ocurrencias del caracter antes de este",
+                "expression": "+",
+                "identifier": "+"
+            }
+        ],
+        "tokens": [
+            {
+                "name": "let",
+                "regularExp": "(a|b|c)",
+                "setExp": [
+                    "a",
+                    "b",
+                    "c"
+                ],
+                "typeExp": 1
+            }
+        ]
+    },
+    {
+        "errorsDictionary": [
+            {
+                "charSymbols": [],
+                "stackSymbol": "<S>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<A>"
+            }
+        ],
+        "module": "syntactic",
+        "ntSymbols": [
+            {
+                "tag": "<S>"
+            },
+            {
+                "tag": "<A>"
+            }
+        ],
+        "productions": [
+            {
+                "leftSide": "<S>",
+                "rightSide": [
+                    "let:a",
+                    "<A>",
+                    "let:b",
+                    "<S>"
+                ]
+            },
+            {
+                "leftSide": "<S>",
+                "rightSide": [
+                    "let:b"
+                ]
+            },
+            {
+                "leftSide": "<A>",
+                "rightSide": [
+                    "<S>",
+                    "<A>",
+                    "let:c"
+                ]
+            },
+            {
+                "leftSide": "<A>",
+                "rightSide": []
+            }
+        ]
+    }
+]

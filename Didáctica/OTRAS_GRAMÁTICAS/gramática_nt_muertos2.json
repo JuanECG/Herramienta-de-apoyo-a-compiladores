@@ -1,0 +1,131 @@
+[
+    {
+        "lastMod": "2020-10-23 14:02:58.149734",
+        "projectName": "gram\u00e1tica_nt_muertos2",
+        "status": "syntactic"
+    },
+    {
+        "module": "lexicon",
+        "subsets": [
+            {
+                "description": "Cualquier car\u00e1cter alfab\u00e9tico entre a y z",
+                "expression": "[a-z]",
+                "identifier": "l"
+            },
+            {
+                "description": "Cualquier car\u00e1cter alfab\u00e9tico entre A y Z",
+                "expression": "[A-Z]",
+                "identifier": "L"
+            },
+            {
+                "description": "Cualquier d\u00edgito entre 0 y 9",
+                "expression": "[0-9]",
+                "identifier": "d"
+            },
+            {
+                "description": "Cualquier car\u00e1cter (Excepto, nueva l\u00ednea)",
+                "expression": ".",
+                "identifier": "."
+            },
+            {
+                "description": "Permite reconocer cero o m\u00e1s ocurrencias del caracter antes de este",
+                "expression": "*",
+                "identifier": "*"
+            },
+            {
+                "description": "Permite reconocer uno o m\u00e1s ocurrencias del caracter antes de este",
+                "expression": "+",
+                "identifier": "+"
+            }
+        ],
+        "tokens": [
+            {
+                "name": "1",
+                "regularExp": "1",
+                "setExp": null,
+                "typeExp": 0
+            },
+            {
+                "name": "0",
+                "regularExp": "0",
+                "setExp": null,
+                "typeExp": 0
+            },
+            {
+                "name": "C",
+                "regularExp": "C",
+                "setExp": null,
+                "typeExp": 0
+            }
+        ]
+    },
+    {
+        "errorsDictionary": [
+            {
+                "charSymbols": [],
+                "stackSymbol": "<S>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<1_0>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<0_1>"
+            }
+        ],
+        "module": "syntactic",
+        "ntSymbols": [
+            {
+                "tag": "<S>"
+            },
+            {
+                "tag": "<1_0>"
+            },
+            {
+                "tag": "<0_1>"
+            }
+        ],
+        "productions": [
+            {
+                "leftSide": "<S>",
+                "rightSide": [
+                    "1",
+                    "<1_0>",
+                    "0"
+                ]
+            },
+            {
+                "leftSide": "<1_0>",
+                "rightSide": [
+                    "1",
+                    "<1_0>",
+                    "0"
+                ]
+            },
+            {
+                "leftSide": "<1_0>",
+                "rightSide": [
+                    "0",
+                    "<0_1>",
+                    "1"
+                ]
+            },
+            {
+                "leftSide": "<0_1>",
+                "rightSide": [
+                    "0",
+                    "<0_1>",
+                    "1"
+                ]
+            },
+            {
+                "leftSide": "<0_1>",
+                "rightSide": [
+                    "C",
+                    "<1_0>"
+                ]
+            }
+        ]
+    }
+]

@@ -1,0 +1,180 @@
+[
+    {
+        "lastMod": "2020-10-06 11:53:38.647284",
+        "projectName": "gramatica_abcs",
+        "status": "syntactic"
+    },
+    {
+        "module": "lexicon",
+        "subsets": [
+            {
+                "description": "Cualquier car\u00e1cter alfab\u00e9tico entre a y z",
+                "expression": "[a-z]",
+                "identifier": "l"
+            },
+            {
+                "description": "Cualquier car\u00e1cter alfab\u00e9tico entre A y Z",
+                "expression": "[A-Z]",
+                "identifier": "L"
+            },
+            {
+                "description": "Cualquier d\u00edgito entre 0 y 9",
+                "expression": "[0-9]",
+                "identifier": "d"
+            },
+            {
+                "description": "Cualquier car\u00e1cter (Excepto, nueva l\u00ednea)",
+                "expression": ".",
+                "identifier": "."
+            },
+            {
+                "description": "Permite reconocer cero o m\u00e1s ocurrencias del caracter antes de este",
+                "expression": "*",
+                "identifier": "*"
+            },
+            {
+                "description": "Permite reconocer uno o m\u00e1s ocurrencias del caracter antes de este",
+                "expression": "+",
+                "identifier": "+"
+            }
+        ],
+        "tokens": [
+            {
+                "name": "let",
+                "regularExp": "(a|b|c)",
+                "setExp": [
+                    "a",
+                    "b",
+                    "c"
+                ],
+                "typeExp": 1
+            }
+        ]
+    },
+    {
+        "errorsDictionary": [
+            {
+                "charSymbols": [],
+                "stackSymbol": "<S>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<A>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<c epsilon>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<epsilon>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<bbS>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<bS>"
+            }
+        ],
+        "module": "syntactic",
+        "ntSymbols": [
+            {
+                "tag": "<S>"
+            },
+            {
+                "tag": "<A>"
+            },
+            {
+                "tag": "<c epsilon>"
+            },
+            {
+                "tag": "<epsilon>"
+            },
+            {
+                "tag": "<bbS>"
+            },
+            {
+                "tag": "<bS>"
+            }
+        ],
+        "productions": [
+            {
+                "leftSide": "<S>",
+                "rightSide": [
+                    "let:a",
+                    "<A>"
+                ]
+            },
+            {
+                "leftSide": "<S>",
+                "rightSide": [
+                    "let:b",
+                    "<c epsilon>"
+                ]
+            },
+            {
+                "leftSide": "<c epsilon>",
+                "rightSide": [
+                    "let:c",
+                    "<epsilon>"
+                ]
+            },
+            {
+                "leftSide": "<epsilon>",
+                "rightSide": []
+            },
+            {
+                "leftSide": "<S>",
+                "rightSide": [
+                    "let:a",
+                    "<bbS>"
+                ]
+            },
+            {
+                "leftSide": "<S>",
+                "rightSide": [
+                    "let:c",
+                    "<A>"
+                ]
+            },
+            {
+                "leftSide": "<S>",
+                "rightSide": []
+            },
+            {
+                "leftSide": "<A>",
+                "rightSide": [
+                    "let:a",
+                    "<bbS>"
+                ]
+            },
+            {
+                "leftSide": "<bbS>",
+                "rightSide": [
+                    "let:b",
+                    "<bS>"
+                ]
+            },
+            {
+                "leftSide": "<bS>",
+                "rightSide": [
+                    "let:b",
+                    "<S>"
+                ]
+            },
+            {
+                "leftSide": "<A>",
+                "rightSide": [
+                    "let:c",
+                    "<A>"
+                ]
+            },
+            {
+                "leftSide": "<A>",
+                "rightSide": []
+            }
+        ]
+    }
+]

@@ -1,0 +1,104 @@
+[
+    {
+        "lastMod": "2020-10-06 11:45:27.149143",
+        "projectName": "gramatica_identificador",
+        "status": "syntactic"
+    },
+    {
+        "module": "lexicon",
+        "subsets": [
+            {
+                "description": "Cualquier car\u00e1cter alfab\u00e9tico entre a y z",
+                "expression": "[a-z]",
+                "identifier": "l"
+            },
+            {
+                "description": "Cualquier car\u00e1cter alfab\u00e9tico entre A y Z",
+                "expression": "[A-Z]",
+                "identifier": "L"
+            },
+            {
+                "description": "Cualquier d\u00edgito entre 0 y 9",
+                "expression": "[0-9]",
+                "identifier": "d"
+            },
+            {
+                "description": "Cualquier car\u00e1cter (Excepto, nueva l\u00ednea)",
+                "expression": ".",
+                "identifier": "."
+            },
+            {
+                "description": "Permite reconocer cero o m\u00e1s ocurrencias del caracter antes de este",
+                "expression": "*",
+                "identifier": "*"
+            },
+            {
+                "description": "Permite reconocer uno o m\u00e1s ocurrencias del caracter antes de este",
+                "expression": "+",
+                "identifier": "+"
+            }
+        ],
+        "tokens": [
+            {
+                "name": "l",
+                "regularExp": "l",
+                "setExp": null,
+                "typeExp": 0
+            },
+            {
+                "name": "d",
+                "regularExp": "d",
+                "setExp": null,
+                "typeExp": 0
+            }
+        ]
+    },
+    {
+        "errorsDictionary": [
+            {
+                "charSymbols": [],
+                "stackSymbol": "<identifier>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<letters and digits>"
+            }
+        ],
+        "module": "syntactic",
+        "ntSymbols": [
+            {
+                "tag": "<identifier>"
+            },
+            {
+                "tag": "<letters and digits>"
+            }
+        ],
+        "productions": [
+            {
+                "leftSide": "<identifier>",
+                "rightSide": [
+                    "l",
+                    "<letters and digits>"
+                ]
+            },
+            {
+                "leftSide": "<letters and digits>",
+                "rightSide": [
+                    "l",
+                    "<letters and digits>"
+                ]
+            },
+            {
+                "leftSide": "<letters and digits>",
+                "rightSide": [
+                    "d",
+                    "<letters and digits>"
+                ]
+            },
+            {
+                "leftSide": "<letters and digits>",
+                "rightSide": []
+            }
+        ]
+    }
+]
