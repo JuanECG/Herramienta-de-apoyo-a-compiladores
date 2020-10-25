@@ -288,6 +288,7 @@ class addItemDlg(QtWidgets.QDialog):
         self.nameEdit = QtWidgets.QLineEdit(self.centralwidget)
         self.nameEdit.setAlignment(QtCore.Qt.AlignCenter)
         self.nameEdit.setObjectName("nameEdit")
+        self.nameEdit.setMaximumHeight(27)
         self.nameEdit.setPlaceholderText("Expresión")
         self.nameEdit.setClearButtonEnabled(True)
         self.windowVLayout.addWidget(self.nameEdit)

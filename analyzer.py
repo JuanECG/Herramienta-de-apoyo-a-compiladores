@@ -647,6 +647,7 @@ class Ui_MainWindow(object):
         self.left_lists.setObjectName("left_lists")
         self.first_list = List(self.scrollAreaWidgetContents_2)
         self.first_list.setObjectName("first_list")
+        self.first_list.setStyleSheet("#first_list::item:!focus{background-color:white;color:black;}")
         self.first_list.setMaximumHeight(60)
         
         self.first_list.setAcceptDrops(True)
@@ -669,6 +670,7 @@ class Ui_MainWindow(object):
         self.right_lists.setObjectName("right_lists")
         self.second_list = List(self.scrollAreaWidgetContents_2)
         self.second_list.setObjectName("second_list")
+        self.second_list.setStyleSheet("#second_list::item:!focus{background-color:white;color:black;}")
         self.second_list.setMaximumHeight(60)
         
         self.second_list.setAcceptDrops(True)
@@ -1775,6 +1777,8 @@ class Ui_MainWindow(object):
         
         # create new left list
         left_list = List(self.scrollAreaWidgetContents)
+        left_list.setObjectName("left_list")
+        left_list.setStyleSheet("#left_list::item:!focus{background-color:white;color:black;}")
         left_list.setAcceptDrops(True)
         left_list.setDragEnabled(True)
         left_list.setDragDropOverwriteMode(True)
@@ -1791,6 +1795,8 @@ class Ui_MainWindow(object):
         
         # create new right list
         right_list = List(self.scrollAreaWidgetContents)
+        right_list.setObjectName("right_list")
+        right_list.setStyleSheet("#right_list::item:!focus{background-color:white;color:black;}")
         right_list.setFlow(QtWidgets.QListView.LeftToRight)
         right_list.setAcceptDrops(True)
         right_list.setDragEnabled(True)
@@ -2635,8 +2641,8 @@ class Ui_MainWindow(object):
             # clearing syntactic tab:
             
             # clears old content
-            self.first_list.setStyleSheet("background-color:white;")
-            self.second_list.setStyleSheet("background-color:white;")
+            self.first_list.setStyleSheet("#first_list{background-color:white;}#first_list::item:!focus{background-color:white;color:black;}")
+            self.second_list.setStyleSheet("#second_list{background-color:white;}#second_list::item:!focus{background-color:white;color:black;}")
             self.NT_items.clear()
             self.tokens.clear()
             
