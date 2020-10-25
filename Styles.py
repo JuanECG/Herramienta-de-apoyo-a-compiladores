@@ -45,13 +45,14 @@ QPushButton {
     padding: 4px;
 }
 QPushButton:hover {
-    background-color: #B8B8B8;
+    background-color: #CCCCCC;
 }
 
 QPushButton:pressed {
-    border-color: #1E4048;
+    background-color: #B8B8B8;
 
 }
+
  
 
 QWidget{
@@ -106,6 +107,8 @@ QTableWidget::item:selected{
     color:black;
 }
 
+
+
 #controlTableWidget::item:!focus {
     background-color:white;
     color:black;
@@ -117,6 +120,7 @@ QTableWidget::item:selected{
 
 
 /* list widget */
+
 QListWidget {
     border-radius:5px;
     border: 2px solid grey;
@@ -126,10 +130,18 @@ QListWidget {
     font-size: 12pt;
 
 }
-QListWidget::item:!focus{
+
+#tokens::item:!focus{
     background-color:white;
     color:black;
 }
+
+#proudction_listWidget::item:!focus{
+    background-color:white;
+    color:black;
+}
+
+
 
 /* items */
 
@@ -296,7 +308,7 @@ QLineEdit:pressed {
 #ErrorLogLabel {border-radius:5px; background:rgb(255, 255, 255); border: 2px solid grey; }
 /* ##labelTitle{ ....} */
 
-#conjuntoNameEdit, #conjuntoExpEdit, #tokenExpEdit, #tokenNameEdit {
+#conjuntoNameEdit, #conjuntoExpEdit, #tokenExpEdit, #tokenNameEdit, #nameEdit{
     font-size:14pt;
 }
 
@@ -317,6 +329,8 @@ QLineEdit:pressed {
 #btn_CFirst, #btn_CSig, #btn_back, #btn_next, #delButtonEC, #btn_search
  { margin-top: 10px;}
 
+#createBtn { margin-right:10px;}
+
 /* Frames */
 #frame_prod_items, #frame_prod_detail {
     border: 2px solid grey;
@@ -332,7 +346,11 @@ QLineEdit:pressed {
     border-top-right-radius:0px;
 }
 
-#NT_items {margin-bottom: 10px;}
+#NT_items {
+     margin-bottom: 10px;
+}
+
+
 
 /* central widget */
 #centralwidget, #centralwidget_dialog {

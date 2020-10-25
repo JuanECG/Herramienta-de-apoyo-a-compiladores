@@ -9,11 +9,9 @@ import resourceFiles
 import io
 import json
 from const import *
-from Styles import qss
 import webbrowser
+from Styles import qss
 import copy
-import base64
-import tempfile
 
 class Snapshot:
     """
@@ -159,7 +157,7 @@ class Ui_MainWindow(object):
         self.verticalLayout.setObjectName("verticalLayout")
         MainWindow.setCentralWidget(self.centralwidget)
         # stylesheet
-        MainWindow.setStyleSheet(qss)    
+        MainWindow.setStyleSheet(qss) 
         
         # menu bar declaration
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -171,6 +169,7 @@ class Ui_MainWindow(object):
         fileMenu.addAction("&Nuevo...", self.newProject, "Ctrl+N")
         fileMenu.addAction("&Abrir...", self.openProject, "Ctrl+O")
         fileMenu.addAction("&Guardar...", self.saveProject, "Ctrl+S")
+        fileMenu.addAction("&Guardar como...", self.saveAsProject, "Ctrl+A")
         fileMenu.addAction("&Salir", QtWidgets.QApplication.instance().quit, "Ctrl+Q")
 
         # Code Menu
@@ -180,8 +179,8 @@ class Ui_MainWindow(object):
         # Help menu
         helpMenu = QtWidgets.QMenu("&Ayuda", MainWindow)
         helpMenu.addAction("&Abrir página...", self.openRepositorySite, "Ctrl+H")
-        helpMenu.addAction("&Formulario de...", self.openFormSite, "Ctrl+H")
-        helpMenu.addAction("&Obtener Ayuda",self.openHelp, "Ctrl+H")
+        helpMenu.addAction("&Formulario de...", self.openFormSite, "Ctrl+F")
+        helpMenu.addAction("&Obtener Ayuda",self.openHelp, "Ctrl+Y")
         
         self.menubar.addMenu(fileMenu)
         self.menubar.addMenu(codeMenu)
@@ -835,14 +834,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         
         self.controlTableWidget = QtWidgets.QTableWidget(self.scrollAreaWidgetContentsCT)
-        self.controlTableWidget.setObjectName("controlTableWidget")
-        self.controlTableWidget.horizontalHeader().setSectionResizeMode(1)
-        self.controlTableWidget.verticalHeader().setMinimumSectionSize(60)
-        self.controlTableWidget.verticalHeader().setMaximumSectionSize(120)
+        self.controlTableWidget.setObjectName("controlTableWidget")    
         self.controlTableWidget.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
-        #
-        #self.controlTableWidget.verticalHeader().setSectionResizeMode(1)
-        #
+        
         self.horizontalLayout_2.addWidget(self.controlTableWidget)
         self.scrollArea.setWidget(self.scrollAreaWidgetContentsCT)
         self.layout_table_1.addWidget(self.scrollArea)
@@ -1455,6 +1449,7 @@ class Ui_MainWindow(object):
         #clear prompts
         self.tokenNameEdit.setText("")
         self.tokenExpEdit.setText("")
+        self.ErrorLogLabel.setText("")
         
         # disable editor
         self.btn_search.setEnabled(False)
@@ -1882,9 +1877,7 @@ class Ui_MainWindow(object):
             
             # disable control table tab 
             self.tabWidget.setTabEnabled(1,0)   
-            
-        
-
+                   
     def analyseLeft(self,left_list):
         # Decides wheter a new item enters a left list or not
         
@@ -2042,8 +2035,25 @@ class Ui_MainWindow(object):
         
         # set column and row count
         self.controlTableWidget.setColumnCount(len(cols))
-        # set height of rows
-        self.controlTableWidget.verticalHeader().setDefaultSectionSize(60)
+        # set view for control table
+        
+        if len(cols) > 8:
+            self.controlTableWidget.horizontalHeader().setSectionResizeMode(0)
+            self.controlTableWidget.horizontalHeader().setDefaultSectionSize(80)
+            self.controlTableWidget.horizontalHeader().setMinimumSectionSize(80)
+            self.controlTableWidget.horizontalHeader().setMaximumSectionSize(80)
+        else: self.controlTableWidget.horizontalHeader().setSectionResizeMode(1)
+        
+        if len(rows) > 7:
+            self.controlTableWidget.verticalHeader().setSectionResizeMode(0)
+            self.controlTableWidget.verticalHeader().setDefaultSectionSize(60)
+            self.controlTableWidget.verticalHeader().setMinimumSectionSize(60)
+            self.controlTableWidget.verticalHeader().setMaximumSectionSize(60)
+        else: self.controlTableWidget.verticalHeader().setSectionResizeMode(1)
+    
+        #self.controlTableWidget.verticalHeader().setSectionResizeMode(1)
+            
+        #self.controlTableWidget.verticalHeader().setDefaultSectionSize(60)
         #self.controlTableWidget.verticalHeader().setStretchLastSection(True)
         
         for row in rows.keys():
@@ -2079,10 +2089,19 @@ class Ui_MainWindow(object):
                 item.setFlags(  QtCore.Qt.ItemIsSelectable |  QtCore.Qt.ItemIsEnabled )
                 item.setTextAlignment(QtCore.Qt.AlignCenter)
                 self.controlTableWidget.setItem(rowPosition,cols[col],item)    
+        id = None
+        #print(rows)
+        for row in rows.keys():
+            if len(row) > 5: 
+                row = row[:5]
+                break
+                
+        
         
         # set vertical and horizontal headers
         self.controlTableWidget.setVerticalHeaderLabels(rows.keys())
         self.controlTableWidget.setHorizontalHeaderLabels(cols.keys())
+        
         # populate proudctions listWidget
         pIndex = 1
         for production in self.sintactic_module.getProductionList():
@@ -2162,10 +2181,7 @@ class Ui_MainWindow(object):
             
             self.labelFC.setText(str(aProduction.getSelectionSet()))
             
-            strProduction = f'{aProduction.getLeftSide()} &rarr; '
-            
-            for symbol in aProduction.getRightSide():
-                strProduction += str(symbol) + ' '
+            strProduction = str(aProduction)
             
             strProduction = strProduction.replace('<', '&lt;')
             strProduction = strProduction.replace('>', '&gt;')
@@ -2383,7 +2399,7 @@ class Ui_MainWindow(object):
             self.saveFlag, _ = QtWidgets.QFileDialog.getSaveFileName(self.MainWindow,"Guardar Proyecto",'',
                 "Json Files (*.json);;All Files (*)")
         if self.saveFlag:
-            with open(self.saveFlag, 'w') as outfile:
+            with open(self.saveFlag, 'w', encoding='utf8') as outfile:
                 data = []
                 # CONSEGUIR SALVABLE DE LÉXICO
                 lexicon = self.analyzer.generateSaveData()
@@ -2399,7 +2415,7 @@ class Ui_MainWindow(object):
                 data.append(syntactic)
 
                 # GUARDAR ARCHIVO
-                json.dump(data, outfile, indent=4, sort_keys=True)
+                json.dump(data, outfile, indent=4, sort_keys=True, ensure_ascii=False)
                 outfile.close()
             self.snapshot = Snapshot()
             #CAMBIO SNAPCHOT
@@ -2410,6 +2426,39 @@ class Ui_MainWindow(object):
                                     self.sintactic_module.errorsDictionary)
             self.popup("Cambios guardados con éxtio", False,1)
     
+    def saveAsProject(self):
+        newFileName, _ = QtWidgets.QFileDialog.getSaveFileName(self.MainWindow,"Guardar como",'',
+            "Json Files (*.json);;All Files (*)")
+
+        if newFileName:
+            with open(newFileName, 'w', encoding='utf8') as outfile:
+                data = []
+                # CONSEGUIR SALVABLE DE LÉXICO
+                lexicon = self.analyzer.generateSaveData()
+
+                # CONSEGUIR SALVABLE DE SINTÁCTICO
+                syntactic = self.sintactic_module.generateSaveData()
+
+                # GENERAR INFORMACION DE CONTROL
+                self.saveFlag = newFileName
+                control = self.generateControlInfo()
+
+                data.append(control)
+                data.append(lexicon)
+                data.append(syntactic)
+
+                # GUARDAR ARCHIVO
+                json.dump(data, outfile, indent=4, sort_keys=True, ensure_ascii=False)
+                outfile.close()
+            self.snapshot = Snapshot()
+            #CAMBIO SNAPCHOT
+            self.snapshot.setLists(self.analyzer.getTokenList(),
+                                    self.analyzer.getSubsetList(),
+                                    self.sintactic_module.getNTSymbolList(),
+                                    self.sintactic_module.getProductionList(),
+                                    self.sintactic_module.errorsDictionary)
+            self.popup("Cambios guardados con éxtio", False,1)
+
     def newProject(self):        
         if not self.checkChanges(): # there are no changes or user doesnt' want to save them
             self.tabMain.setCurrentIndex(0)
@@ -2444,7 +2493,7 @@ class Ui_MainWindow(object):
                 #self.tab_table.setDisabled(True)
                 #
                 #
-                with open(path) as infile:
+                with open(path, encoding='utf8') as infile:
                     try:    
                         projectl = json.load(infile)
                     except:
@@ -2537,23 +2586,25 @@ class Ui_MainWindow(object):
             
     
     def generateControlInfo(self):
-        project = self.saveFlag.split('/')[-1].split('.')[:-1]
-        projectName = ""
-        projectName = projectName.join(project)
-        self.currentProjectName = projectName
+        if self.saveFlag != '' or self.saveFlag is not None:
+            project = self.saveFlag.split('/')[-1].split('.')[:-1]
+            projectName = ""
+            projectName = projectName.join(project)
+            self.currentProjectName = projectName
 
 
-        lastMod = str(datetime.now())
-        status = LEXICON
-        if(len(self.sintactic_module.getNTSymbolList())>0 or len(self.sintactic_module.getProductionList())):
-            status = SYNTACTIC
-        
-        control = {
-            "projectName": projectName,
-            "lastMod": lastMod,
-            "status": status
-        }
-        return control
+            lastMod = str(datetime.now())
+            status = LEXICON
+            if(len(self.sintactic_module.getNTSymbolList())>0 or len(self.sintactic_module.getProductionList())):
+                status = SYNTACTIC
+            
+            control = {
+                "projectName": projectName,
+                "lastMod": lastMod,
+                "status": status
+            }
+            return control
+        return None
     
     def openRepositorySite(self):
         webbrowser.open("https://github.com/JuanECG/Herramienta-de-apoyo-a-compiladores")

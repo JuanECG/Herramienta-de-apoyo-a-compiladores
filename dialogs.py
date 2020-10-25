@@ -82,12 +82,12 @@ class List(QListWidget):
         self.itemDragged.emit()
         
         
-    def keyPressEvent(self, event):
-        if event.key() == QtCore.Qt.Key_Delete:
-            row = self.currentRow()
-            self.takeItem(row)
-        else:
-            super().keyPressEvent(event)
+    # def keyPressEvent(self, event):
+    #     if event.key() == QtCore.Qt.Key_Delete:
+    #         row = self.currentRow()
+    #         self.takeItem(row)
+    #     else:
+    #         super().keyPressEvent(event)
 #endregion: subclasses
             
 #region: dialogs
@@ -103,9 +103,12 @@ class EditMainDlg(QtWidgets.QDialog):
         super(EditMainDlg, self).__init__()
         self.setWindowFlags( QtCore.Qt.WindowSystemMenuHint | QtCore.Qt.WindowTitleHint | QtCore.Qt.WindowCloseButtonHint)
         self.main = main
+        self.exitOpt = False
+        self.oldName = self.main.tableWidget.item(self.main.tableWidget.currentRow(),0).text()
         self.selectedRow = self.main.tableWidget.currentRow()
-        self.setFixedSize(274,275)
+        self.setFixedSize(274,285)
         self.setWindowTitle("Editar Token")
+        self.setStyleSheet(qss)
         iconEdit = QtGui.QIcon()
         iconEdit.addPixmap(QtGui.QPixmap(":/icons/Edit_48px.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.setWindowIcon(iconEdit)
@@ -119,6 +122,8 @@ class EditMainDlg(QtWidgets.QDialog):
         self.nameEdit.setAlignment(QtCore.Qt.AlignCenter)
         self.nameEdit.setObjectName("nameEdit")
         self.nameEdit.setPlaceholderText("Título")
+        self.nameEdit.setMaximumHeight(27)
+        self.nameEdit.setClearButtonEnabled(True)
         self.windowVLayout.addWidget(self.nameEdit)
         
         self.itemsListWidget = QtWidgets.QListWidget(self.centralwidget)
@@ -159,7 +164,7 @@ class EditMainDlg(QtWidgets.QDialog):
         self.delBtn.clicked.connect(lambda:self.delete())
         self.nameEdit.textEdited.connect(lambda:self.changeTitle())
         self.itemsListWidget.itemClicked.connect(lambda:self.delBtn.setDisabled(False))
-        
+         
     def add(self):
         add = addItemDlg(self)
         add.exec_()
@@ -211,14 +216,56 @@ class EditMainDlg(QtWidgets.QDialog):
         # disable control table tab 
         self.main.tabWidget.setTabEnabled(1,0)  
         
+        if self.itemsListWidget.count() == 0:
+            # there's no items left, delete the row
+            self.main.deleteItemTable()
+            self.exitOpt = True
+            self.close()
+        
+        
     def changeTitle(self):
         title = self.nameEdit.text()
+        if self.main.analyzer.findToken(self.nameEdit.text()):
+            return
+    
         #if self.main.sintactic_module.isTMUsed(title):
         for item in self.currentToken.getSetExp():
             self.main.sintactic_module.setTMSymbol(title+':'+item,self.currentToken.getName()+':'+item)
         self.currentToken.setName(title)
         
         self.main.tableWidget.item(self.main.tableWidget.currentRow(),0).setText(title)
+        
+        self.oldName = self.nameEdit.text()
+      
+    def popup(self,msgText):
+        msg = QMessageBox()
+        msg.setWindowTitle("Advertencia")
+        msg.setText(msgText)
+        msg.setIcon(QMessageBox.Warning)
+        msg.setWindowIcon(QtGui.QIcon(':/icons/Variable_48px.png'))
+        x = msg.exec_()
+        return
+    
+    def closeEvent(self, evnt):
+        
+        if self.exitOpt:
+            super(EditMainDlg, self).closeEvent(evnt)
+            return
+        
+        if self.nameEdit.text() == '':
+            self.popup("Se debe especificar el nombre del token")
+            evnt.ignore()
+            return
+        
+        if self.oldName != self.nameEdit.text():
+            if self.main.analyzer.findToken(self.nameEdit.text()):
+                self.popup("Ya existe un token con el nombre especificado")
+                evnt.ignore()
+                return
+        
+        else: super(EditMainDlg, self).closeEvent(evnt)
+        
+      
         
 class addItemDlg(QtWidgets.QDialog):
    
@@ -228,6 +275,7 @@ class addItemDlg(QtWidgets.QDialog):
         self.parent = parent
         self.setFixedSize(193,70)
         self.setWindowTitle("Agregar Elemento")
+        self.setStyleSheet(qss)
         iconAdd = QtGui.QIcon()
         iconAdd.addPixmap(QtGui.QPixmap(":/icons/add.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.setWindowIcon(iconAdd)
@@ -264,8 +312,7 @@ class addItemDlg(QtWidgets.QDialog):
         if self.nameEdit.text() == '':
             self.popup("El elemento debe tener una expresión")
             return
-        # TO DO:.........
-        # check if element already exists
+        
         for i in range (self.parent.itemsListWidget.count()):
             if self.parent.itemsListWidget.item(i).text() == self.nameEdit.text():    
                 self.popup("Ya existe un elemento con esa expresión")
@@ -424,7 +471,7 @@ class AddSubconjuntoDlg(QtWidgets.QDialog):
         self.main = main
         self.setWindowTitle("Añadir elemento Subconjunto")
         self.row = self.main.tableSubconjunto.rowCount()
-        self.resize(440,300)
+        self.setFixedSize(440,300)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/add.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.setWindowIcon(icon)
@@ -477,7 +524,6 @@ class AddSubconjuntoDlg(QtWidgets.QDialog):
         self.expLabel.setText("Id:")
         self.expPythonLabel.setText("Expresión Python:")
         self.descLabel.setText("Descripción:")
-        self.setMinimumWidth(350)
         self.control=True
 
         #listeners:
@@ -535,7 +581,7 @@ class EditSubconjuntoDlg(QtWidgets.QDialog):
         self.main = main
         self.selectedRow = self.main.tableSubconjunto.currentRow()
         self.setWindowTitle("Editar elemento Subconjunto")
-        self.resize(440,300)
+        self.setFixedSize(440,300)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/Edit_48px.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.setWindowIcon(icon)
@@ -591,7 +637,6 @@ class EditSubconjuntoDlg(QtWidgets.QDialog):
         self.expLabel.setText("Id:")
         self.expPythonLabel.setText("Expresión Python:")
         self.descLabel.setText("Descripción:")
-        self.setMinimumWidth(350)
         self.control=True
 
         #listeners:
@@ -648,6 +693,7 @@ class EditorWindow(object):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(700, 570)
         icon = QtGui.QIcon()
+        #MainWindow.setStyleSheet(qss)
         icon.addPixmap(QtGui.QPixmap(":/icons/Variable_48px.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
         MainWindow.setWindowFlags( QtCore.Qt.WindowSystemMenuHint | QtCore.Qt.WindowTitleHint | QtCore.Qt.WindowCloseButtonHint)
@@ -663,6 +709,10 @@ class EditorWindow(object):
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(12)
+
+        fontlittle = QtGui.QFont()
+        fontlittle.setFamily("Arial")
+        fontlittle.setPointSize(11)
 
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -714,6 +764,7 @@ class EditorWindow(object):
         self.campEdit = QtWidgets.QTextEdit(self.centralwidget)
         self.campEdit.setGeometry(QtCore.QRect(40, 10, 650, 320))
         self.campEdit.setFont(font)
+        self.campEdit.setAcceptRichText(False)
         self.campEdit.setObjectName("campEdit")
 
         
@@ -727,25 +778,31 @@ class EditorWindow(object):
         self.stackLabel = QtWidgets.QLabel(self.stepTab)
         self.stackLabel.setGeometry(QtCore.QRect(360, 10, 281, 16))
         self.stackLabel.setObjectName("stackLabel")
+        self.stackLabel.setFont(font)
         self.headerLabel = QtWidgets.QLabel(self.stepTab)
         self.headerLabel.setGeometry(QtCore.QRect(20, 10, 261, 16))
         self.headerLabel.setObjectName("headerLabel")
+        self.headerLabel.setFont(font)
         self.aplicationLabel = QtWidgets.QLabel(self.stepTab)
         self.aplicationLabel.setGeometry(QtCore.QRect(20, 70, 271, 16))
         self.aplicationLabel.setObjectName("aplicationLabel")
+        self.aplicationLabel.setFont(font)
 
         self.stackList = QtWidgets.QListWidget(self.stepTab)
         self.stackList.setGeometry(QtCore.QRect(360, 30, 291, 91))
         self.stackList.setObjectName("stackList")
+        self.stackList.setFont(fontlittle)
 
         self.headerLine = QtWidgets.QLineEdit(self.stepTab)
         self.headerLine.setGeometry(QtCore.QRect(20, 30, 301, 20))
         self.headerLine.setObjectName("headerLine")
         self.headerLine.setReadOnly(True)
+        self.headerLine.setFont(fontlittle)
         self.aplicationLine = QtWidgets.QLineEdit(self.stepTab)
         self.aplicationLine.setGeometry(QtCore.QRect(20, 90, 301, 20))
         self.aplicationLine.setObjectName("aplicationLine")
         self.aplicationLine.setReadOnly(True)
+        self.aplicationLine.setFont(fontlittle)
 
         self.optionsTab.addTab(self.stepTab, "")
         self.resultTab = QtWidgets.QWidget()
@@ -889,6 +946,7 @@ class EditorWindow(object):
         self.disselecterror(True)
         self.clearError()
         userinput = self.campEdit.toPlainText()
+        
         try:    status, result = self.runLexicAnalyzer(userinput)
         except:
             self.executionErrorStop(LX_EXECUTION_ERROR)
@@ -942,6 +1000,7 @@ class EditorWindow(object):
         self.resultEdit.setText(message)
 
     def runStepbyStep(self):
+        #CHANGES HERE.
         self.optionsTab.setCurrentWidget(self.optionsTab.widget(0))
         self.disselecterror(True)
         self.clearError()
@@ -950,31 +1009,35 @@ class EditorWindow(object):
        
         self.running = True
         userinput = self.campEdit.toPlainText()
-        if self.lexFlag:
-            self.mainChar = userinput
-            self.editPos = [0,0]
-            self.curPos = [1,1]
-            self.resultLex = []
-            self.cleanedChars = []
-            self.lexStep()
-        else:
-            status, self.resultLex = self.runLexicAnalyzer(userinput)
-            if status:
-                eocs = SubToken(EOC, EOC, (0,0))
-                self.resultLex.append(eocs)
+        if len(userinput) > 0:
+            if self.lexFlag:
+                self.mainChar = userinput
                 self.editPos = [0,0]
-                self.stack = []
-                self.stack.append(self.synA.getInitialNt())
-                self.oldHead = -1
-                self.head = 0
-            # ---- INICIAL
-            
-            self.synStep()
+                self.curPos = [1,1]
+                self.resultLex = []
+                self.cleanedChars = []
+                self.lexStep()
+            else:
+                status, self.resultLex = self.runLexicAnalyzer(userinput)
+                if status:
+                    eocs = SubToken(EOC, EOC, (0,0))
+                    self.resultLex.append(eocs)
+                    self.editPos = [0,0]
+                    self.stack = []
+                    self.stack.append(self.synA.getInitialNt())
+                    self.oldHead = -1
+                    self.head = 0
+                # ---- INICIAL
+                
+                self.synStep()
 
-
-        self.selectElement(self.editPos)
-        self.nextStepButton.setEnabled(True)
-        self.stopStepButton.setEnabled(True)
+            if self.running:
+                self.selectElement(self.editPos)
+                self.nextStepButton.setEnabled(True)
+                self.stopStepButton.setEnabled(True)
+        else:
+            self.optionsTab.setCurrentWidget(self.optionsTab.widget(1))
+            self.resultEdit.setText('Para esta función ingrece una cadena no vácia')
 
     def lexStep(self):
 
@@ -1028,7 +1091,6 @@ class EditorWindow(object):
 
             self.headerLine.setText(oldChar[0:dif])
             self.stackList.addItem(f'{self.resultLex[-1].getToken()}:{self.resultLex[-1].getValue()}')
-            self.stackList.verticalScrollBar().setValue(0)
             resultChar = self.parseResult(self.resultLex, False) if len(self.mainChar) > 0 else self.parseResult(self.resultLex)
 
         self.resultEdit.setTextColor(color)
@@ -1162,7 +1224,7 @@ class EditorWindow(object):
         if self.selectedElement:
             cursor = self.campEdit.textCursor()
             cursor.setPosition(self.selectedElement[0])
-            cursor.select(QtGui.QTextCursor.WordUnderCursor)
+            cursor.select(QtGui.QTextCursor.BlockUnderCursor)
             cursor.setCharFormat(self.textFormat)
             self.selectedElement = None
             
@@ -1244,6 +1306,7 @@ class AddNonTerminalDialog(QtWidgets.QDialog):
         self.main = main
         self.setFixedSize(401,163)
         self.setWindowTitle("Añadir No-Terminal")
+        self.setStyleSheet(qss)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/add.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.setWindowIcon(icon)
@@ -1309,6 +1372,10 @@ class AddNonTerminalDialog(QtWidgets.QDialog):
         
         if self.expEdit.text() == "<>":
             self.popup("El campo no puede estar vacío")
+            return
+        
+        if len(self.expEdit.text()) > 17:
+            self.popup("El nombre del no terminal no debería exceder los 15 caracteres")
             return
 
         for i in range (self.main.NT_items.count()):
@@ -1380,7 +1447,7 @@ class Help_Window(QtWidgets.QDialog):
         super(Help_Window, self).__init__()
         self.setWindowFlags( QtCore.Qt.WindowSystemMenuHint | QtCore.Qt.WindowTitleHint | QtCore.Qt.WindowCloseButtonHint)
         self.setObjectName("Help_Window")
-        self.setFixedSize(570,400)
+        self.setFixedSize(610,400)
         self.setWindowTitle("Ayuda")
         
         icon = QtGui.QIcon()
@@ -1418,6 +1485,7 @@ class Help_Window(QtWidgets.QDialog):
         self.ico_IdeaBug.setAlignment(QtCore.Qt.AlignCenter)
         self.ico_IdeaBug.setObjectName("ico_IdeaBug")
         self.ico_IdeaBug.setPixmap(QtGui.QPixmap(":/icons/idea-bug.png"))
+        self.ico_IdeaBug.setToolTip("¡Tu opinión vale muchísimo!")
         #self.ico_IdeaBug.setText("ico imagen bug e idea")
         self.HL_bugs.addWidget(self.ico_IdeaBug)
         self.verticalLayout_3.addLayout(self.HL_bugs)
@@ -1469,7 +1537,7 @@ class Help_Window(QtWidgets.QDialog):
         
         self.verticalLayout_3.addLayout(self.HL_autors)
         
-        self.centralwidget.setGeometry(0,0,570,400)
+        self.centralwidget.setGeometry(0,0,610,400)
         
         self.ico_github.clicked.connect(lambda:self.openGit())
         self.info_title_label.linkActivated.connect(lambda:self.openGit())

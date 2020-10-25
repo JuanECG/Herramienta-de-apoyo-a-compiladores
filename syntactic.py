@@ -634,7 +634,11 @@ class SyntacticAnalyzer:
 
         """
         # Agregar subtoken, fin de cadema
-        eocs = SubToken(EOC, EOC, (mainChar[-1].getPosition()[0], mainChar[-1].getPosition()[1]+1))
+
+        if len(mainChar) > 0:
+            eocs = SubToken(EOC, EOC, (mainChar[-1].getPosition()[0], mainChar[-1].getPosition()[1]+1))
+        else:
+            eocs = SubToken(EOC, EOC, (0,0))
         mainChar.append(eocs)
 
         stack = []
@@ -744,11 +748,12 @@ class SyntacticAnalyzer:
 
     def getAmbiguityExplanation(self, amb_Symbol, ls_Symbol):
         explanation = 'Punto de ambigüedad, se puede aplicar las producciones:\n'
-    
+        pos = 1
         for production in self.__productionList:
             if (production.getLeftSide().getTag() == ls_Symbol and 
             amb_Symbol in production.getSelectionSet()):
-                explanation += str(production) + NL
+                explanation += f'{pos}. {production}{NL}'
+            pos += 1
 
         return explanation
     
@@ -1372,18 +1377,18 @@ class SyntacticAnalyzer:
         return f"el símbolo NO terminal ( {symbol.getTag()} )"
     
     def printFirstSymbols(self, symbols, spaces = False):
-        if spaces:
-            result = '( '
-            for symbol in symbols:
-                result += f"{symbol} "
-            result =  result[:-1]+' )'
-            return result
-
         if symbols is not None and len(symbols) > 0:
-            result = '( '
-            for symbol in symbols:
-                result += f"{symbol}, "
-            result =  result[:-2]+' )'
+            if spaces:
+                result = '( '
+                for symbol in symbols:
+                    result += f"{symbol} "
+                result =  result[:-1]+' )'
+                return result
+            else:
+                result = '( '
+                for symbol in symbols:
+                    result += f"{symbol}, "
+                result =  result[:-2]+' )'
         else: result = ''
         return result
 
