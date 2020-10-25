@@ -1,0 +1,112 @@
+[
+    {
+        "lastMod": "2020-10-23 21:23:39.985383",
+        "projectName": "Identificaci\u00f3n de gram\u00e1tica 1",
+        "status": "syntactic"
+    },
+    {
+        "module": "lexicon",
+        "subsets": [
+            {
+                "description": "Cualquier car\u00e1cter alfab\u00e9tico entre a y z",
+                "expression": "[a-z]",
+                "identifier": "l"
+            },
+            {
+                "description": "Cualquier car\u00e1cter alfab\u00e9tico entre A y Z",
+                "expression": "[A-Z]",
+                "identifier": "L"
+            },
+            {
+                "description": "Cualquier d\u00edgito entre 0 y 9",
+                "expression": "[0-9]",
+                "identifier": "d"
+            },
+            {
+                "description": "Cualquier car\u00e1cter (Excepto, nueva l\u00ednea)",
+                "expression": ".",
+                "identifier": "."
+            },
+            {
+                "description": "Permite reconocer cero o m\u00e1s ocurrencias del caracter antes de este",
+                "expression": "*",
+                "identifier": "*"
+            },
+            {
+                "description": "Permite reconocer uno o m\u00e1s ocurrencias del caracter antes de este",
+                "expression": "+",
+                "identifier": "+"
+            }
+        ],
+        "tokens": [
+            {
+                "name": "term",
+                "regularExp": "(a|b)",
+                "setExp": [
+                    "a",
+                    "b"
+                ],
+                "typeExp": 1
+            }
+        ]
+    },
+    {
+        "errorsDictionary": [
+            {
+                "charSymbols": [],
+                "stackSymbol": "<S>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<X>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<Y>"
+            }
+        ],
+        "module": "syntactic",
+        "ntSymbols": [
+            {
+                "tag": "<S>"
+            },
+            {
+                "tag": "<X>"
+            },
+            {
+                "tag": "<Y>"
+            }
+        ],
+        "productions": [
+            {
+                "leftSide": "<S>",
+                "rightSide": [
+                    "term:b",
+                    "<X>"
+                ]
+            },
+            {
+                "leftSide": "<X>",
+                "rightSide": [
+                    "term:a",
+                    "<Y>",
+                    "term:b"
+                ]
+            },
+            {
+                "leftSide": "<X>",
+                "rightSide": [
+                    "term:b",
+                    "term:b"
+                ]
+            },
+            {
+                "leftSide": "<Y>",
+                "rightSide": [
+                    "term:a",
+                    "term:a"
+                ]
+            }
+        ]
+    }
+]

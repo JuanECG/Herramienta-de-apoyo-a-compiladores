@@ -1,0 +1,168 @@
+[
+    {
+        "lastMod": "2020-10-25 12:31:49.157575",
+        "projectName": "ejemplo gramática LL1",
+        "status": "syntactic"
+    },
+    {
+        "module": "lexicon",
+        "subsets": [
+            {
+                "description": "Cualquier carácter alfabético entre a y z",
+                "expression": "[a-z]",
+                "identifier": "l"
+            },
+            {
+                "description": "Cualquier carácter alfabético entre A y Z",
+                "expression": "[A-Z]",
+                "identifier": "L"
+            },
+            {
+                "description": "Cualquier dígito entre 0 y 9",
+                "expression": "[0-9]",
+                "identifier": "d"
+            },
+            {
+                "description": "Cualquier carácter (Excepto, nueva línea)",
+                "expression": ".",
+                "identifier": "."
+            },
+            {
+                "description": "Permite reconocer cero o más ocurrencias del caracter antes de este",
+                "expression": "*",
+                "identifier": "*"
+            },
+            {
+                "description": "Permite reconocer uno o más ocurrencias del caracter antes de este",
+                "expression": "+",
+                "identifier": "+"
+            }
+        ],
+        "tokens": [
+            {
+                "name": "reserv",
+                "regularExp": "(if|else|then|begin|end)",
+                "setExp": [
+                    "if",
+                    "else",
+                    "then",
+                    "begin",
+                    "end"
+                ],
+                "typeExp": 1
+            },
+            {
+                "name": "func",
+                "regularExp": "(print|return)",
+                "setExp": [
+                    "print",
+                    "return"
+                ],
+                "typeExp": 1
+            },
+            {
+                "name": "var",
+                "regularExp": "l+",
+                "setExp": null,
+                "typeExp": 0
+            },
+            {
+                "name": "op",
+                "regularExp": "(;|=|:)",
+                "setExp": [
+                    ";",
+                    "=",
+                    ":"
+                ],
+                "typeExp": 1
+            }
+        ]
+    },
+    {
+        "errorsDictionary": [
+            {
+                "charSymbols": [],
+                "stackSymbol": "<S>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<L>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<E>"
+            }
+        ],
+        "module": "syntactic",
+        "ntSymbols": [
+            {
+                "tag": "<S>"
+            },
+            {
+                "tag": "<L>"
+            },
+            {
+                "tag": "<E>"
+            }
+        ],
+        "productions": [
+            {
+                "leftSide": "<S>",
+                "rightSide": [
+                    "reserv:if",
+                    "<E>",
+                    "reserv:then",
+                    "<S>",
+                    "reserv:else",
+                    "op::",
+                    "<S>"
+                ]
+            },
+            {
+                "leftSide": "<S>",
+                "rightSide": [
+                    "reserv:begin",
+                    "<S>",
+                    "<L>"
+                ]
+            },
+            {
+                "leftSide": "<S>",
+                "rightSide": [
+                    "func:print",
+                    "op:;"
+                ]
+            },
+            {
+                "leftSide": "<S>",
+                "rightSide": [
+                    "func:return",
+                    "op:;"
+                ]
+            },
+            {
+                "leftSide": "<L>",
+                "rightSide": [
+                    "reserv:end"
+                ]
+            },
+            {
+                "leftSide": "<L>",
+                "rightSide": [
+                    "op:;",
+                    "<S>",
+                    "<L>"
+                ]
+            },
+            {
+                "leftSide": "<E>",
+                "rightSide": [
+                    "var",
+                    "op:=",
+                    "var",
+                    "op::"
+                ]
+            }
+        ]
+    }
+]
