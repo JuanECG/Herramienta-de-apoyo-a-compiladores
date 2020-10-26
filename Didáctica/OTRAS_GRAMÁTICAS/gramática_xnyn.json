@@ -1,0 +1,139 @@
+[
+    {
+        "lastMod": "2020-10-26 12:04:25.326479",
+        "projectName": "gramática_xnyn",
+        "status": "syntactic"
+    },
+    {
+        "module": "lexicon",
+        "subsets": [
+            {
+                "description": "Cualquier carácter alfabético entre a y z",
+                "expression": "[a-z]",
+                "identifier": "l"
+            },
+            {
+                "description": "Cualquier carácter alfabético entre A y Z",
+                "expression": "[A-Z]",
+                "identifier": "L"
+            },
+            {
+                "description": "Cualquier dígito entre 0 y 9",
+                "expression": "[0-9]",
+                "identifier": "d"
+            },
+            {
+                "description": "Cualquier carácter (Excepto, nueva línea)",
+                "expression": ".",
+                "identifier": "."
+            },
+            {
+                "description": "Permite reconocer cero o más ocurrencias del caracter antes de este",
+                "expression": "*",
+                "identifier": "*"
+            },
+            {
+                "description": "Permite reconocer uno o más ocurrencias del caracter antes de este",
+                "expression": "+",
+                "identifier": "+"
+            }
+        ],
+        "tokens": [
+            {
+                "name": "X",
+                "regularExp": "x",
+                "setExp": null,
+                "typeExp": 0
+            },
+            {
+                "name": "Y",
+                "regularExp": "y",
+                "setExp": null,
+                "typeExp": 0
+            }
+        ]
+    },
+    {
+        "errorsDictionary": [
+            {
+                "charSymbols": [
+                    {
+                        "message": "Se esperaba que llegara una x antes",
+                        "symbol": "Y"
+                    },
+                    {
+                        "message": "No se admite cadenas vacías",
+                        "symbol": "¬"
+                    }
+                ],
+                "stackSymbol": "<S>"
+            },
+            {
+                "charSymbols": [
+                    {
+                        "message": "Llego solo una X",
+                        "symbol": "¬"
+                    }
+                ],
+                "stackSymbol": "<B>"
+            },
+            {
+                "charSymbols": [
+                    {
+                        "message": "En esta sección solo debeían llegar Y",
+                        "symbol": "X"
+                    },
+                    {
+                        "message": "llegaron mas X que Y",
+                        "symbol": "¬"
+                    }
+                ],
+                "stackSymbol": "Y"
+            },
+            {
+                "charSymbols": [
+                    {
+                        "message": "Llego una x al final de la cadena",
+                        "symbol": "X"
+                    },
+                    {
+                        "message": "Llegaron mas Y que X",
+                        "symbol": "Y"
+                    }
+                ],
+                "stackSymbol": "∇"
+            }
+        ],
+        "module": "syntactic",
+        "ntSymbols": [
+            {
+                "tag": "<S>"
+            },
+            {
+                "tag": "<B>"
+            }
+        ],
+        "productions": [
+            {
+                "leftSide": "<S>",
+                "rightSide": [
+                    "X",
+                    "<B>",
+                    "Y"
+                ]
+            },
+            {
+                "leftSide": "<B>",
+                "rightSide": [
+                    "X",
+                    "<B>",
+                    "Y"
+                ]
+            },
+            {
+                "leftSide": "<B>",
+                "rightSide": []
+            }
+        ]
+    }
+]

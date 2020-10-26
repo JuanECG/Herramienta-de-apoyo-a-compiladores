@@ -1,0 +1,70 @@
+[
+    {
+        "lastMod": "2020-10-26 13:04:44.363056",
+        "projectName": "op_bin",
+        "status": "syntactic"
+    },
+    {
+        "module": "lexicon",
+        "subsets": [
+            {
+                "description": "Cualquier carácter alfabético entre a y z",
+                "expression": "[a-z]",
+                "identifier": "l"
+            },
+            {
+                "description": "Cualquier carácter alfabético entre A y Z",
+                "expression": "[A-Z]",
+                "identifier": "L"
+            },
+            {
+                "description": "Cualquier dígito entre 0 y 9",
+                "expression": "[0-9]",
+                "identifier": "d"
+            },
+            {
+                "description": "Cualquier carácter (Excepto, nueva línea)",
+                "expression": ".",
+                "identifier": "."
+            },
+            {
+                "description": "Permite reconocer cero o más ocurrencias del caracter antes de este",
+                "expression": "*",
+                "identifier": "*"
+            },
+            {
+                "description": "Permite reconocer uno o más ocurrencias del caracter antes de este",
+                "expression": "+",
+                "identifier": "+"
+            }
+        ],
+        "tokens": [
+            {
+                "name": "bin",
+                "regularExp": "(1|0)+",
+                "setExp": null,
+                "typeExp": 0
+            },
+            {
+                "name": "op",
+                "regularExp": "(\\+|\\-)",
+                "setExp": [
+                    "+",
+                    "-"
+                ],
+                "typeExp": 1
+            }
+        ]
+    },
+    {
+        "errorsDictionary": [],
+        "module": "syntactic",
+        "ntSymbols": [],
+        "productions": [
+            {
+                "leftSide": null,
+                "rightSide": []
+            }
+        ]
+    }
+]

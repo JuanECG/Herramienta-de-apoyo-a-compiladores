@@ -1,0 +1,117 @@
+[
+    {
+        "lastMod": "2020-10-26 12:56:00.269631",
+        "projectName": "gramática_1n0n1m0m",
+        "status": "syntactic"
+    },
+    {
+        "module": "lexicon",
+        "subsets": [
+            {
+                "description": "Cualquier carácter alfabético entre a y z",
+                "expression": "[a-z]",
+                "identifier": "l"
+            },
+            {
+                "description": "Cualquier carácter alfabético entre A y Z",
+                "expression": "[A-Z]",
+                "identifier": "L"
+            },
+            {
+                "description": "Cualquier dígito entre 0 y 9",
+                "expression": "[0-9]",
+                "identifier": "d"
+            },
+            {
+                "description": "Cualquier carácter (Excepto, nueva línea)",
+                "expression": ".",
+                "identifier": "."
+            },
+            {
+                "description": "Permite reconocer cero o más ocurrencias del caracter antes de este",
+                "expression": "*",
+                "identifier": "*"
+            },
+            {
+                "description": "Permite reconocer uno o más ocurrencias del caracter antes de este",
+                "expression": "+",
+                "identifier": "+"
+            }
+        ],
+        "tokens": [
+            {
+                "name": "1",
+                "regularExp": "1",
+                "setExp": null,
+                "typeExp": 0
+            },
+            {
+                "name": "0",
+                "regularExp": "0",
+                "setExp": null,
+                "typeExp": 0
+            }
+        ]
+    },
+    {
+        "errorsDictionary": [
+            {
+                "charSymbols": [],
+                "stackSymbol": "<S>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<W>"
+            },
+            {
+                "charSymbols": [],
+                "stackSymbol": "<P>"
+            }
+        ],
+        "module": "syntactic",
+        "ntSymbols": [
+            {
+                "tag": "<S>"
+            },
+            {
+                "tag": "<W>"
+            },
+            {
+                "tag": "<P>"
+            }
+        ],
+        "productions": [
+            {
+                "leftSide": "<S>",
+                "rightSide": [
+                    "<W>",
+                    "<P>"
+                ]
+            },
+            {
+                "leftSide": "<W>",
+                "rightSide": [
+                    "1",
+                    "<W>",
+                    "0"
+                ]
+            },
+            {
+                "leftSide": "<P>",
+                "rightSide": [
+                    "1",
+                    "<W>",
+                    "0"
+                ]
+            },
+            {
+                "leftSide": "<W>",
+                "rightSide": []
+            },
+            {
+                "leftSide": "<P>",
+                "rightSide": []
+            }
+        ]
+    }
+]
