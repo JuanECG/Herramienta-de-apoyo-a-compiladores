@@ -1,6 +1,6 @@
 """
-    Esta es la plantilla utilizada para la generacion de codigo
-    para el archivo (lexicon) modulo lexico de TOOL
+    Esta es la plantilla utilizada para la generación de código
+    para el archivo (lexicon) módulo léxico de TOOL
 """
 # IMPORT BIBLIOTECA REGEX
 import re

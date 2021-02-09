@@ -1,6 +1,6 @@
 """
-Esta es la plantilla utilizada para la generacion de codigo
-para el archivo (main) principal de un proyecto de TOOLNAME...
+Esta es la plantilla utilizada para la generación de código
+para el archivo (main) principal de un proyecto de GADUN
 """
 
 # IMPORTS de modulos lexico y sintactico

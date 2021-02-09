@@ -15,9 +15,6 @@ class EditorWindow(object):
     def setupUi(self, MainWindow, lexiconAnalyzer = None, allowSyntax = False, syntacticAnalizer = None):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(700, 570)
-        #icon = QtGui.QIcon()
-        #icon.addPixmap(QtGui.QPixmap(":/icons/Variable_48px.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        #MainWindow.setWindowIcon(icon)
 
         # PERSONALIZACIÓN
         self.window = MainWindow
@@ -36,9 +33,6 @@ class EditorWindow(object):
         self.runButton = QtWidgets.QPushButton(self.centralwidget)
         self.runButton.setGeometry(QtCore.QRect(10, 340, 50, 20))
         self.runButton.setObjectName("runButton")
-        #iconPlay = QtGui.QIcon()
-        #iconPlay.addPixmap(QtGui.QPixmap(":/icons/play.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        #self.runButton.setIcon(iconPlay)
 
         self.optionBox = QtWidgets.QComboBox(self.centralwidget)
         self.optionBox.setGeometry(QtCore.QRect(570, 340, 120, 20))
@@ -99,7 +93,6 @@ class EditorWindow(object):
             self.optionBox.setEnabled(False)
         # BUTTONS CONF
         self.runButton.clicked.connect(self.runFull)
-        #self.toggleButton.clicked.connect(self.toggleWindow)
         
         self.campEdit.cursorPositionChanged.connect(self.disselecterror)
         self.campEdit.textChanged.connect(self.numeration)
@@ -121,8 +114,6 @@ class EditorWindow(object):
         self.runButton.setText(_translate("MainWindow", "Run"))
         self.optionBox.setItemText(0, _translate("MainWindow", "Análisis Léxico"))
         self.optionBox.setItemText(1, _translate("MainWindow", "Análisis Sintáctico"))
-
-    # SEGUNDA INSICION
         
     def newFile(self):
         self.campEdit.clear()
@@ -181,14 +172,11 @@ class EditorWindow(object):
                 return
             
 
-
     def changeOption(self, index):
         if index == 0:
             self.lexFlag = True
-            #self.setLexiconLabels()
         else:
             self.lexFlag = False
-            #self.setSyntacticLabels()
 
 
     def runLexicAnalyzer(self, userinput):
@@ -218,8 +206,6 @@ class EditorWindow(object):
 
         self.resultEdit.setTextColor(color)
         self.resultEdit.setText(message)
-
-    # PRIMERA INSICION
     
     def disselecterror(self, manually = False):
         if self.errorSel is not None:
@@ -232,7 +218,7 @@ class EditorWindow(object):
                 self.errorSel = None
 
     def highlightError(self, pos):
-        #posicion de fila y caracter
+        #posición de fila y caracter
         format = QtGui.QTextCharFormat()
         format.setBackground(QtGui.QColor(255,0,0))
         cursor = self.campEdit.textCursor()

@@ -13,9 +13,6 @@ class EditorWindow(object):
     def setupUi(self, MainWindow, lexiconAnalyzer = None):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(700, 570)
-        #icon = QtGui.QIcon()
-        #icon.addPixmap(QtGui.QPixmap(":/icons/Variable_48px.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        #MainWindow.setWindowIcon(icon)
 
         # PERSONALIZACIÓN
         self.window = MainWindow
@@ -34,9 +31,6 @@ class EditorWindow(object):
         self.runButton = QtWidgets.QPushButton(self.centralwidget)
         self.runButton.setGeometry(QtCore.QRect(10, 340, 50, 20))
         self.runButton.setObjectName("runButton")
-        #iconPlay = QtGui.QIcon()
-        #iconPlay.addPixmap(QtGui.QPixmap(":/icons/play.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        #self.runButton.setIcon(iconPlay)
 
         self.numEdit = QtWidgets.QTextEdit(self.centralwidget)
         self.numEdit.setGeometry(QtCore.QRect(10, 10, 30, 320))
@@ -81,7 +75,6 @@ class EditorWindow(object):
 
         # BUTTONS CONF
         self.runButton.clicked.connect(self.runFull)
-        #self.toggleButton.clicked.connect(self.toggleWindow)
         
         self.campEdit.cursorPositionChanged.connect(self.disselecterror)
         self.campEdit.textChanged.connect(self.numeration)
@@ -101,8 +94,6 @@ class EditorWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Analizador Léxico"))
         self.runButton.setText(_translate("MainWindow", "Run"))
-
-    # SEGUNDA INSICION
         
     def newFile(self):
         self.campEdit.clear()
@@ -170,9 +161,7 @@ class EditorWindow(object):
         self.resultEdit.setTextColor(color)
         self.resultEdit.setText(cadena)
         return (status, result)
-    
 
-    # PRIMERA INSICION
     
     def disselecterror(self, manually = False):
         if self.errorSel is not None:
